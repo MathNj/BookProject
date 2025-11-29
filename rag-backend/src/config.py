@@ -20,10 +20,10 @@ class Settings(BaseSettings):
     qdrant_api_key: Optional[str] = None
     qdrant_collection_name: str = "textbook_content"
 
-    # API Configuration (Gemini key used with OpenAI SDK)
+    # API Configuration (Gemini API via OpenAI SDK)
     api_key: str = ""  # Google Gemini API key
     openai_api_key: str = ""  # Alias for api_key, for backwards compatibility
-    chat_model: str = "gpt-4o-mini"
+    chat_model: str = "gemini-2.5-flash"
     embedding_model: str = "text-embedding-3-small"
     openai_model: str = "text-embedding-3-small"  # For backwards compatibility
     openai_embedding_dimensions: int = 1536  # OpenAI embedding vector size

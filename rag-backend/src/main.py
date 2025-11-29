@@ -100,8 +100,8 @@ async def chat(request: ChatRequest) -> ChatResponse:
         messages = [msg.dict() for msg in request.messages]
 
         # Get agent and run it
-        agent = get_agent(model=request.model)
-        response = agent.run(messages)
+        agent = get_agent()
+        response = await agent.run_sync(messages)
 
         logger.info("Chat request processed successfully")
         return ChatResponse(
@@ -180,25 +180,25 @@ async def search(query: str, limit: int = 3) -> SearchResponse:
 @app.on_event("startup")
 async def startup_event():
     """Startup event handler for initializing services."""
-    print("🚀 RAG Backend starting up...")
+    logger.info("RAG Backend starting up...")
     try:
-        # Initialize vector store connection
+        # Initialize vector store connection (lazy loaded)
         vector_store = get_vector_store()
-        logger.info("✓ Vector store initialized")
+        logger.info("Vector store initialized")
 
-        # Initialize agent
+        # Initialize agent (lazy loaded)
         agent = get_agent()
-        logger.info("✓ RAG agent initialized")
+        logger.info("RAG agent initialized")
 
     except Exception as e:
-        logger.error(f"✗ Failed to initialize services: {e}")
+        logger.error(f"Failed to initialize services: {e}")
         raise
 
 
 @app.on_event("shutdown")
 async def shutdown_event():
     """Shutdown event handler for cleanup."""
-    print("🛑 RAG Backend shutting down...")
+    logger.info("RAG Backend shutting down...")
     # TODO: Close database connections, cleanup resources
 
 

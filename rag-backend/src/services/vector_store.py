@@ -23,12 +23,24 @@ class VectorStoreService:
 
     def __init__(self):
         """Initialize Qdrant and OpenAI clients."""
-        self.qdrant_client = self._get_qdrant_client()
+        # Defer Qdrant connection until first use (lazy initialization)
+        self._qdrant_client = None
+        self._qdrant_initialized = False
         # Use api_key if openai_api_key is empty (for Gemini key usage)
         api_key = settings.openai_api_key or settings.api_key
         self.openai_client = OpenAI(api_key=api_key)
         self.collection_name = settings.qdrant_collection_name
-        self._ensure_collection_exists()
+        logger.info("✓ VectorStoreService initialized (Qdrant connection deferred)")
+
+    @property
+    def qdrant_client(self) -> QdrantClient:
+        """Lazy initialization of Qdrant client."""
+        if self._qdrant_client is None:
+            self._qdrant_client = self._get_qdrant_client()
+            if not self._qdrant_initialized:
+                self._ensure_collection_exists()
+                self._qdrant_initialized = True
+        return self._qdrant_client
 
     def _get_qdrant_client(self) -> QdrantClient:
         """

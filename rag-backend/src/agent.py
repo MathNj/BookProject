@@ -1,5 +1,5 @@
 """
-RAG Agent using OpenAI.
+RAG Agent using OpenAI Agents framework with Gemini API.
 
 Implements an agent with access to vector store search tool for retrieval-augmented generation.
 The agent answers questions about the robotics textbook using semantic search.
@@ -7,19 +7,32 @@ The agent answers questions about the robotics textbook using semantic search.
 
 import json
 import logging
+import asyncio
 from typing import Any, Optional
-from openai import OpenAI
+from openai import AsyncOpenAI
+from agents import Agent, function_tool, Runner, OpenAIChatCompletionsModel
 from src.services.vector_store import get_vector_store
 from src.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Configure OpenAI client
+# Configure AsyncOpenAI client with Gemini API
 api_key = settings.api_key or settings.openai_api_key
-client = OpenAI(api_key=api_key)
+gemini_client = AsyncOpenAI(
+    api_key=api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+# Configure the model with the Gemini client
+model = OpenAIChatCompletionsModel(
+    model=settings.chat_model,
+    openai_client=gemini_client
+)
+
 vector_store = get_vector_store()
 
 # Define the search tool
+@function_tool
 def search_book_tool(query: str) -> str:
     """
     Search the textbook for relevant content using semantic similarity.
@@ -65,27 +78,6 @@ def search_book_tool(query: str) -> str:
             "error": str(e),
             "results": []
         })
-
-
-# Tool definition for OpenAI Agents API
-SEARCH_TOOL_DEFINITION = {
-    "type": "function",
-    "function": {
-        "name": "search_book",
-        "description": "Search the Physical AI & Humanoid Robotics textbook for relevant content. Use this to find passages that answer the user's question.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "query": {
-                    "type": "string",
-                    "description": "The search query or question to find relevant book passages"
-                }
-            },
-            "required": ["query"]
-        }
-    }
-}
-
 # System prompt for the agent
 SYSTEM_PROMPT = """You are an expert Robotics Professor specializing in Physical AI and Humanoid Robotics.
 
@@ -102,37 +94,28 @@ Always use the search_book tool to find relevant passages before answering."""
 
 
 class RAGAgent:
-    """Agent for retrieval-augmented generation using OpenAI."""
+    """Agent for retrieval-augmented generation using OpenAI Agents framework with Gemini API."""
 
-    def __init__(self, model: str = None):
+    def __init__(self, model_obj: OpenAIChatCompletionsModel = None):
         """
         Initialize the RAG Agent.
 
         Args:
-            model: OpenAI model to use for the agent (default from config)
+            model_obj: OpenAIChatCompletionsModel to use for the agent (default from config)
         """
-        self.model = model or settings.chat_model
+        self.model_obj = model_obj or model
         self.system_prompt = SYSTEM_PROMPT
         self.vector_store = vector_store
-        self.client = client
 
-    def _process_tool_call(self, tool_name: str, tool_input: dict) -> str:
-        """
-        Process a tool call from the agent.
+        # Create the agent with the search_book tool
+        self.agent = Agent(
+            name="Physical AI Textbook Assistant",
+            instructions=self.system_prompt,
+            model=self.model_obj,
+            tools=[search_book_tool]
+        )
 
-        Args:
-            tool_name: Name of the tool to call
-            tool_input: Input parameters for the tool
-
-        Returns:
-            str: Tool execution result
-        """
-        if tool_name == "search_book":
-            return search_book_tool(tool_input.get("query", ""))
-        else:
-            return json.dumps({"error": f"Unknown tool: {tool_name}"})
-
-    def run(self, messages: list[dict[str, str]]) -> str:
+    async def run_sync(self, messages: list[dict[str, str]]) -> str:
         """
         Run the agent with the given messages and return the final response.
 
@@ -144,64 +127,29 @@ class RAGAgent:
             str: The agent's response to the user
         """
         try:
-            # Prepare messages with system prompt
-            system_message = {"role": "system", "content": self.system_prompt}
-            all_messages = [system_message] + messages
+            logger.info(f"Calling model with agents framework")
 
-            # Call OpenAI with tools
-            logger.info(f"Calling OpenAI model: {self.model}")
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=all_messages,
-                tools=[SEARCH_TOOL_DEFINITION],
-                tool_choice="auto",
+            # Extract the user's query from the messages
+            user_message = messages[-1].get("content", "") if messages else ""
+
+            # Run the agent using Runner.run (async)
+            result = await Runner.run(
+                starting_agent=self.agent,
+                input=user_message
             )
 
-            # Process the response
-            while response.choices[0].finish_reason == "tool_calls":
-                # Extract tool calls
-                tool_calls = response.choices[0].message.tool_calls
+            # Extract final response text from the result
+            final_response = result.final_output if hasattr(result, 'final_output') else str(result)
 
-                # Process each tool call
-                tool_results = []
-                for tool_call in tool_calls:
-                    logger.info(f"Processing tool call: {tool_call.function.name}")
-                    tool_result = self._process_tool_call(
-                        tool_call.function.name,
-                        json.loads(tool_call.function.arguments)
-                    )
-                    tool_results.append({
-                        "type": "tool",
-                        "tool_use_id": tool_call.id,
-                        "content": tool_result
-                    })
-
-                # Continue conversation with tool results
-                all_messages.append(response.choices[0].message)
-                all_messages.append({
-                    "role": "user",
-                    "content": tool_results
-                })
-
-                # Get next response
-                response = self.client.chat.completions.create(
-                    model=self.model,
-                    messages=all_messages,
-                    tools=[SEARCH_TOOL_DEFINITION],
-                    tool_choice="auto",
-                )
-
-            # Extract final response text
-            final_response = response.choices[0].message.content
             if final_response:
-                logger.info("Successfully generated response from OpenAI")
+                logger.info("Successfully generated response")
                 return final_response
             else:
-                logger.warning("OpenAI returned empty response")
+                logger.warning("Model returned empty response")
                 return "I couldn't generate a response. Please try again."
 
         except Exception as e:
-            logger.error(f"Error in agent.run: {e}")
+            logger.error(f"Error in agent.run_sync: {e}")
             raise
 
 
@@ -209,17 +157,17 @@ class RAGAgent:
 _agent_instance: Optional[RAGAgent] = None
 
 
-def get_agent(model: str = None) -> RAGAgent:
+def get_agent(model_obj: OpenAIChatCompletionsModel = None) -> RAGAgent:
     """
     Get the singleton RAG Agent instance.
 
     Args:
-        model: OpenAI model to use (only used on first call)
+        model_obj: OpenAIChatCompletionsModel to use (only used on first call)
 
     Returns:
         RAGAgent: The singleton agent instance
     """
     global _agent_instance
     if _agent_instance is None:
-        _agent_instance = RAGAgent(model=model)
+        _agent_instance = RAGAgent(model_obj=model_obj or model)
     return _agent_instance
