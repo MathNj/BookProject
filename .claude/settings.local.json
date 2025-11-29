@@ -23,7 +23,8 @@
       "Bash(for module in \"nervous-system\" \"digital-twin\" \"robot-brain\" \"the-mind\" \"capstone\")",
       "Bash(do curl -s -o /dev/null -w \"  - $module: %{http_code}\\n\" http://localhost:3000/BookProject/$module/intro/)",
       "Bash(done)",
-      "Bash(npm run write-translations:*)"
+      "Bash(npm run write-translations:*)",
+      "Bash(do)"
     ],
     "deny": [],
     "ask": []

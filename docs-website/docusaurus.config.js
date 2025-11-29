@@ -79,10 +79,12 @@ const config = {
           items: [
             { label: 'GitHub', href: 'https://github.com/username/BookProject' },
             { label: 'Specification', href: 'https://github.com/username/BookProject/blob/main/specs/001-ai-textbook/spec.md' },
+            { label: 'NVIDIA Isaac Sim', href: 'https://docs.omniverse.nvidia.com/isaacsim/latest/' },
+            { label: 'ROS 2 Documentation', href: 'https://docs.ros.org/en/humble/' },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Physical AI Textbook. Built with Docusaurus.`,
+      copyright: `© 2024 Physical AI Initiative. Built with Spec-Kit Plus.`,
     },
   },
 };

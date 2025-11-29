@@ -18,7 +18,7 @@ export default function Home() {
               Physical AI & Humanoid Robotics
             </h1>
             <p style={{ fontSize: '1.25rem', textAlign: 'center', color: '#666', marginBottom: '3rem' }}>
-              An AI-native, interactive textbook teaching embodied intelligence with real robots and simulations.
+              From Code to Corpus: The Guide to Embodied Intelligence.
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
@@ -98,7 +98,7 @@ export default function Home() {
                 className="button button--primary button--lg"
                 to="/01-nervous-system"
               >
-                Start Learning →
+                Start Module 1: The Nervous System →
               </Link>
             </div>
           </div>

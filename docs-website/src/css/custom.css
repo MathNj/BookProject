@@ -34,19 +34,23 @@
 
 /* Custom styles for the textbook */
 :root {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #1e40af;
+  --color-primary: #ff6b35; /* Robotics Orange */
+  --color-primary-dark: #d94d20; /* Darker Orange */
   --color-secondary: #8b5cf6;
   --color-background: #ffffff;
   --color-text: #1f2937;
+  --ifm-color-primary: #ff6b35;
+  --ifm-color-primary-dark: #d94d20;
 }
 
 [data-theme="dark"] {
-  --color-primary: #60a5fa;
-  --color-primary-dark: #3b82f6;
+  --color-primary: #ff8555; /* Bright Orange */
+  --color-primary-dark: #ff6b35;
   --color-secondary: #a78bfa;
   --color-background: #111827;
   --color-text: #f3f4f6;
+  --ifm-color-primary: #ff8555;
+  --ifm-color-primary-dark: #ff6b35;
 }
 
 html {
