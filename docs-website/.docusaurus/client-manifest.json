@@ -123,9 +123,9 @@
     "354": {
       "js": [
         {
-          "file": "assets/js/runtime~main.8261b8f2.js",
-          "hash": "d07553d353df52ad",
-          "publicPath": "/BookProject/ur/assets/js/runtime~main.8261b8f2.js"
+          "file": "assets/js/runtime~main.e51f9a84.js",
+          "hash": "a466b5ad2f8fb1c7",
+          "publicPath": "/BookProject/ur/assets/js/runtime~main.e51f9a84.js"
         }
       ]
     },
@@ -168,9 +168,9 @@
     "583": {
       "js": [
         {
-          "file": "assets/js/1df93b7f.a0c2bea6.js",
-          "hash": "2e7d7be2dbbc2d28",
-          "publicPath": "/BookProject/ur/assets/js/1df93b7f.a0c2bea6.js"
+          "file": "assets/js/1df93b7f.dc98e88c.js",
+          "hash": "dad65b942bcb8b92",
+          "publicPath": "/BookProject/ur/assets/js/1df93b7f.dc98e88c.js"
         }
       ]
     },
@@ -204,9 +204,9 @@
     "792": {
       "js": [
         {
-          "file": "assets/js/main.36846879.js",
-          "hash": "c73fdae08402d3be",
-          "publicPath": "/BookProject/ur/assets/js/main.36846879.js"
+          "file": "assets/js/main.0f8072ab.js",
+          "hash": "95f7f73597b64d2f",
+          "publicPath": "/BookProject/ur/assets/js/main.0f8072ab.js"
         }
       ]
     },
