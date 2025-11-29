@@ -1,0 +1,15 @@
+export default {
+  "17896441": [() => import(/* webpackChunkName: "17896441" */ "@theme/DocItem"), "@theme/DocItem", require.resolveWeak("@theme/DocItem")],
+  "1df93b7f": [() => import(/* webpackChunkName: "1df93b7f" */ "@site/src/pages/index.tsx"), "@site/src/pages/index.tsx", require.resolveWeak("@site/src/pages/index.tsx")],
+  "397ba831": [() => import(/* webpackChunkName: "397ba831" */ "@generated/docusaurus-plugin-content-docs/default/p/book-project-ur-a23.json"), "@generated/docusaurus-plugin-content-docs/default/p/book-project-ur-a23.json", require.resolveWeak("@generated/docusaurus-plugin-content-docs/default/p/book-project-ur-a23.json")],
+  "5e95c892": [() => import(/* webpackChunkName: "5e95c892" */ "@theme/DocsRoot"), "@theme/DocsRoot", require.resolveWeak("@theme/DocsRoot")],
+  "5e9f5e1a": [() => import(/* webpackChunkName: "5e9f5e1a" */ "@generated/docusaurus.config"), "@generated/docusaurus.config", require.resolveWeak("@generated/docusaurus.config")],
+  "64dc5b1e": [() => import(/* webpackChunkName: "64dc5b1e" */ "@site/docs/04-the-mind/intro.md"), "@site/docs/04-the-mind/intro.md", require.resolveWeak("@site/docs/04-the-mind/intro.md")],
+  "8608e862": [() => import(/* webpackChunkName: "8608e862" */ "@site/docs/03-robot-brain/intro.md"), "@site/docs/03-robot-brain/intro.md", require.resolveWeak("@site/docs/03-robot-brain/intro.md")],
+  "86824c8a": [() => import(/* webpackChunkName: "86824c8a" */ "@site/docs/02-digital-twin/intro.md"), "@site/docs/02-digital-twin/intro.md", require.resolveWeak("@site/docs/02-digital-twin/intro.md")],
+  "a7456010": [() => import(/* webpackChunkName: "a7456010" */ "@generated/docusaurus-plugin-content-pages/default/__plugin.json"), "@generated/docusaurus-plugin-content-pages/default/__plugin.json", require.resolveWeak("@generated/docusaurus-plugin-content-pages/default/__plugin.json")],
+  "a7bd4aaa": [() => import(/* webpackChunkName: "a7bd4aaa" */ "@theme/DocVersionRoot"), "@theme/DocVersionRoot", require.resolveWeak("@theme/DocVersionRoot")],
+  "a94703ab": [() => import(/* webpackChunkName: "a94703ab" */ "@theme/DocRoot"), "@theme/DocRoot", require.resolveWeak("@theme/DocRoot")],
+  "aba21aa0": [() => import(/* webpackChunkName: "aba21aa0" */ "@generated/docusaurus-plugin-content-docs/default/__plugin.json"), "@generated/docusaurus-plugin-content-docs/default/__plugin.json", require.resolveWeak("@generated/docusaurus-plugin-content-docs/default/__plugin.json")],
+  "b9e94c4d": [() => import(/* webpackChunkName: "b9e94c4d" */ "@site/docs/05-capstone/intro.md"), "@site/docs/05-capstone/intro.md", require.resolveWeak("@site/docs/05-capstone/intro.md")],
+  "eed35ed0": [() => import(/* webpackChunkName: "eed35ed0" */ "@site/docs/01-nervous-system/intro.md"), "@site/docs/01-nervous-system/intro.md", require.resolveWeak("@site/docs/01-nervous-system/intro.md")],};

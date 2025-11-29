@@ -1,0 +1,27 @@
+{
+  "id": "robot-brain/intro",
+  "title": "Module 3: Robot Brain (Isaac Sim & Visual Language Models)",
+  "description": "Perception & Planning for Autonomous Agents",
+  "source": "@site/docs/03-robot-brain/intro.md",
+  "sourceDirName": "03-robot-brain",
+  "slug": "/robot-brain/intro",
+  "permalink": "/BookProject/ur/robot-brain/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/username/BookProject/tree/main/docs-website/docs/03-robot-brain/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "Module 2: Digital Twin (Simulation)",
+    "permalink": "/BookProject/ur/digital-twin/intro"
+  },
+  "next": {
+    "title": "Module 4: The Mind (Vision Language Models & Reasoning)",
+    "permalink": "/BookProject/ur/the-mind/intro"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "capstone/intro",
+  "title": "Module 5: Capstone Project",
+  "description": "Applying All Skills to a Real-World Embodied AI Challenge",
+  "source": "@site/docs/05-capstone/intro.md",
+  "sourceDirName": "05-capstone",
+  "slug": "/capstone/intro",
+  "permalink": "/BookProject/ur/capstone/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/username/BookProject/tree/main/docs-website/docs/05-capstone/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "Module 4: The Mind (Vision Language Models & Reasoning)",
+    "permalink": "/BookProject/ur/the-mind/intro"
+  }
+}

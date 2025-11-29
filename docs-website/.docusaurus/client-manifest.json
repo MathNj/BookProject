@@ -1,0 +1,223 @@
+{
+  "entrypoints": [
+    "main"
+  ],
+  "origins": {
+    "237": [
+      237
+    ],
+    "17896441": [
+      869,
+      401
+    ],
+    "main": [
+      354,
+      869,
+      792
+    ],
+    "runtime~main": [
+      792,
+      869,
+      354
+    ],
+    "1df93b7f": [
+      583
+    ],
+    "397ba831": [
+      607
+    ],
+    "5e95c892": [
+      647
+    ],
+    "64dc5b1e": [
+      405
+    ],
+    "8608e862": [
+      386
+    ],
+    "86824c8a": [
+      37
+    ],
+    "a7456010": [
+      235
+    ],
+    "a7bd4aaa": [
+      98
+    ],
+    "a94703ab": [
+      869,
+      48
+    ],
+    "aba21aa0": [
+      742
+    ],
+    "b9e94c4d": [
+      325
+    ],
+    "eed35ed0": [
+      464
+    ],
+    "styles": [
+      48,
+      354,
+      401,
+      792,
+      869
+    ]
+  },
+  "assets": {
+    "37": {
+      "js": [
+        {
+          "file": "assets/js/86824c8a.df362c54.js",
+          "hash": "448d42b7ed9607ca",
+          "publicPath": "/BookProject/ur/assets/js/86824c8a.df362c54.js"
+        }
+      ]
+    },
+    "48": {
+      "js": [
+        {
+          "file": "assets/js/a94703ab.2ba9f949.js",
+          "hash": "c391b2007c93b3dc",
+          "publicPath": "/BookProject/ur/assets/js/a94703ab.2ba9f949.js"
+        }
+      ]
+    },
+    "98": {
+      "js": [
+        {
+          "file": "assets/js/a7bd4aaa.6111b86a.js",
+          "hash": "c37096b4733d6241",
+          "publicPath": "/BookProject/ur/assets/js/a7bd4aaa.6111b86a.js"
+        }
+      ]
+    },
+    "235": {
+      "js": [
+        {
+          "file": "assets/js/a7456010.b4b8cb17.js",
+          "hash": "bdbc37e4a7e51ce6",
+          "publicPath": "/BookProject/ur/assets/js/a7456010.b4b8cb17.js"
+        }
+      ]
+    },
+    "237": {
+      "js": [
+        {
+          "file": "assets/js/237.a88ea959.js",
+          "hash": "ff2f92546177f43a",
+          "publicPath": "/BookProject/ur/assets/js/237.a88ea959.js"
+        }
+      ]
+    },
+    "325": {
+      "js": [
+        {
+          "file": "assets/js/b9e94c4d.c3c34083.js",
+          "hash": "a33672635a043504",
+          "publicPath": "/BookProject/ur/assets/js/b9e94c4d.c3c34083.js"
+        }
+      ]
+    },
+    "354": {
+      "js": [
+        {
+          "file": "assets/js/runtime~main.8927b267.js",
+          "hash": "eb4c4c7bed2e8379",
+          "publicPath": "/BookProject/ur/assets/js/runtime~main.8927b267.js"
+        }
+      ]
+    },
+    "386": {
+      "js": [
+        {
+          "file": "assets/js/8608e862.96b30611.js",
+          "hash": "db83c41a0421d87a",
+          "publicPath": "/BookProject/ur/assets/js/8608e862.96b30611.js"
+        }
+      ]
+    },
+    "401": {
+      "js": [
+        {
+          "file": "assets/js/17896441.b23bb998.js",
+          "hash": "858a12f9adfc6021",
+          "publicPath": "/BookProject/ur/assets/js/17896441.b23bb998.js"
+        }
+      ]
+    },
+    "405": {
+      "js": [
+        {
+          "file": "assets/js/64dc5b1e.d2b182a1.js",
+          "hash": "f05383b945d9a5f1",
+          "publicPath": "/BookProject/ur/assets/js/64dc5b1e.d2b182a1.js"
+        }
+      ]
+    },
+    "464": {
+      "js": [
+        {
+          "file": "assets/js/eed35ed0.7904985b.js",
+          "hash": "f593aebfdb86dc61",
+          "publicPath": "/BookProject/ur/assets/js/eed35ed0.7904985b.js"
+        }
+      ]
+    },
+    "583": {
+      "js": [
+        {
+          "file": "assets/js/1df93b7f.6cc369ce.js",
+          "hash": "01e44518fba64ab7",
+          "publicPath": "/BookProject/ur/assets/js/1df93b7f.6cc369ce.js"
+        }
+      ]
+    },
+    "607": {
+      "js": [
+        {
+          "file": "assets/js/397ba831.ace26b25.js",
+          "hash": "137442129ec1df60",
+          "publicPath": "/BookProject/ur/assets/js/397ba831.ace26b25.js"
+        }
+      ]
+    },
+    "647": {
+      "js": [
+        {
+          "file": "assets/js/5e95c892.64cc1ce0.js",
+          "hash": "0f7c90cc8031c170",
+          "publicPath": "/BookProject/ur/assets/js/5e95c892.64cc1ce0.js"
+        }
+      ]
+    },
+    "742": {
+      "js": [
+        {
+          "file": "assets/js/aba21aa0.68df3816.js",
+          "hash": "4a9ebef9540bd79d",
+          "publicPath": "/BookProject/ur/assets/js/aba21aa0.68df3816.js"
+        }
+      ]
+    },
+    "792": {
+      "js": [
+        {
+          "file": "assets/js/main.b58a5112.js",
+          "hash": "18583fae56ccaaac",
+          "publicPath": "/BookProject/ur/assets/js/main.b58a5112.js"
+        }
+      ]
+    },
+    "869": {
+      "css": [
+        {
+          "file": "assets/css/styles.07bbbf05.css",
+          "hash": "641a36d41a1ded75",
+          "publicPath": "/BookProject/ur/assets/css/styles.07bbbf05.css"
+        }
+      ]
+    }
+  }
+}

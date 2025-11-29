@@ -1,0 +1,53 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/BookProject/ur/",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/BookProject/ur/",
+          "mainDocId": "nervous-system/intro",
+          "docs": [
+            {
+              "id": "capstone/intro",
+              "path": "/BookProject/ur/capstone/intro",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "digital-twin/intro",
+              "path": "/BookProject/ur/digital-twin/intro",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "nervous-system/intro",
+              "path": "/BookProject/ur/nervous-system/intro",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "robot-brain/intro",
+              "path": "/BookProject/ur/robot-brain/intro",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "the-mind/intro",
+              "path": "/BookProject/ur/the-mind/intro",
+              "sidebar": "mainSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "mainSidebar": {
+              "link": {
+                "path": "/BookProject/ur/nervous-system/intro",
+                "label": "nervous-system/intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

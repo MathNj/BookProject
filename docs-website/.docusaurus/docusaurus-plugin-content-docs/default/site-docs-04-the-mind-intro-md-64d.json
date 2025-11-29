@@ -1,0 +1,27 @@
+{
+  "id": "the-mind/intro",
+  "title": "Module 4: The Mind (Vision Language Models & Reasoning)",
+  "description": "Embodied Reasoning and Multi-Modal Understanding",
+  "source": "@site/docs/04-the-mind/intro.md",
+  "sourceDirName": "04-the-mind",
+  "slug": "/the-mind/intro",
+  "permalink": "/BookProject/ur/the-mind/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/username/BookProject/tree/main/docs-website/docs/04-the-mind/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "Module 3: Robot Brain (Isaac Sim & Visual Language Models)",
+    "permalink": "/BookProject/ur/robot-brain/intro"
+  },
+  "next": {
+    "title": "Module 5: Capstone Project",
+    "permalink": "/BookProject/ur/capstone/intro"
+  }
+}

@@ -11,7 +11,13 @@
       "Bash(git commit:*)",
       "Bash(claude mcp add:*)",
       "Bash(git fetch:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(ConvertFrom-Json)",
+      "Bash(Select-Object FEATURE_DIR, FEATURE_SPEC)",
+      "Bash(npm init:*)",
+      "Bash(npx create-docusaurus@latest . classic --typescript)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

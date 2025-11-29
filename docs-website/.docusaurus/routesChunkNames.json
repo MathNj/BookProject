@@ -1,0 +1,42 @@
+{
+  "/BookProject/ur/-9a6": {
+    "__comp": "1df93b7f",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/BookProject/ur/-1bc": {
+    "__comp": "5e95c892",
+    "__context": {
+      "plugin": "aba21aa0"
+    }
+  },
+  "/BookProject/ur/-999": {
+    "__comp": "a7bd4aaa",
+    "__props": "397ba831"
+  },
+  "/BookProject/ur/-250": {
+    "__comp": "a94703ab"
+  },
+  "/BookProject/ur/capstone/intro-607": {
+    "__comp": "17896441",
+    "content": "b9e94c4d"
+  },
+  "/BookProject/ur/digital-twin/intro-3bd": {
+    "__comp": "17896441",
+    "content": "86824c8a"
+  },
+  "/BookProject/ur/nervous-system/intro-1a2": {
+    "__comp": "17896441",
+    "content": "eed35ed0"
+  },
+  "/BookProject/ur/robot-brain/intro-219": {
+    "__comp": "17896441",
+    "content": "8608e862"
+  },
+  "/BookProject/ur/the-mind/intro-182": {
+    "__comp": "17896441",
+    "content": "64dc5b1e"
+  }
+}

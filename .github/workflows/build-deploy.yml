@@ -1,0 +1,82 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # Install frontend dependencies
+      - name: Install frontend dependencies
+        working-directory: docs-website
+        run: npm install
+
+      # Lint Markdown
+      - name: Lint Markdown
+        working-directory: docs-website
+        run: npx markdownlint docs/ || true
+
+      # Build Docusaurus
+      - name: Build Docusaurus
+        working-directory: docs-website
+        run: npm run build
+        env:
+          DOCUSAURUS_CACHE_FOLDER: .docusaurus
+
+      # Install Poetry
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      # Setup RAG backend environment
+      - name: Setup RAG backend
+        working-directory: rag-backend
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry install
+
+      # RAG ingestion (placeholder - will be implemented in Phase 2)
+      - name: RAG Ingestion Step (Placeholder)
+        run: echo "RAG ingestion will run here once configured"
+
+      # Run performance benchmarks (placeholder)
+      - name: Performance Benchmarks (Placeholder)
+        run: echo "Performance benchmarks will run here"
+
+      # Deploy frontend to GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs-website/build
+          cname: bookproject.example.com  # Update with actual domain
+
+      # Report deployment status
+      - name: Report Deployment
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: echo "✅ Deployment successful! Site live at GitHub Pages."

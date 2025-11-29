@@ -1,0 +1,23 @@
+{
+  "id": "nervous-system/intro",
+  "title": "Module 1: The Nervous System (ROS 2)",
+  "description": "Foundation of Robot Communication & Control",
+  "source": "@site/docs/01-nervous-system/intro.md",
+  "sourceDirName": "01-nervous-system",
+  "slug": "/nervous-system/intro",
+  "permalink": "/BookProject/ur/nervous-system/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/username/BookProject/tree/main/docs-website/docs/01-nervous-system/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "mainSidebar",
+  "next": {
+    "title": "Module 2: Digital Twin (Simulation)",
+    "permalink": "/BookProject/ur/digital-twin/intro"
+  }
+}

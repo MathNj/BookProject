@@ -1,0 +1,27 @@
+{
+  "id": "digital-twin/intro",
+  "title": "Module 2: Digital Twin (Simulation)",
+  "description": "Building Virtual Replicas of Physical Systems",
+  "source": "@site/docs/02-digital-twin/intro.md",
+  "sourceDirName": "02-digital-twin",
+  "slug": "/digital-twin/intro",
+  "permalink": "/BookProject/ur/digital-twin/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/username/BookProject/tree/main/docs-website/docs/02-digital-twin/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "Module 1: The Nervous System (ROS 2)",
+    "permalink": "/BookProject/ur/nervous-system/intro"
+  },
+  "next": {
+    "title": "Module 3: Robot Brain (Isaac Sim & Visual Language Models)",
+    "permalink": "/BookProject/ur/robot-brain/intro"
+  }
+}
