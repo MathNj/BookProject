@@ -41,8 +41,9 @@ class Settings(BaseSettings):
     frontend_url: str = "http://localhost:3000"
     cors_origins: list = [
         "http://localhost:3000",
+        "http://localhost:3001",
     ]
-    api_port: int = 3000
+    api_port: int = 8000
 
     # Feature Flags
     enable_rag_indexing: bool = True
