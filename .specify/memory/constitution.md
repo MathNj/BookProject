@@ -1,58 +1,3 @@
-<!--
-SYNC IMPACT REPORT
-==================
-Constitution Version: 1.1.0 → 1.2.0 (MINOR bump: Addressed 11 gaps; added 4 new principles + critical quality gates.)
-
-Version Bump Justification: MINOR (1.2.0)
-- Reason: Expanded constitution with 4 new principles (VII-X) addressing pedagogy, hardware, feedback, cost. Enhanced documentation standards with RAG quality metrics, hallucination auditing, accessibility, Urdu translation, and content versioning. Added performance SLOs, subagents governance. No existing principles removed or redefined; expansions clarify and operationalize.
-
-Principles Added/Enhanced:
-- V. Test-First for Code, Validation-First for Content (ENHANCED: added measurable content quality targets: readability ≤grade 10, 100% accuracy review, ≥3 examples per concept)
-- VII. Curriculum Structure & Prerequisite Clarity (NEW: explicit module path ROS2→Digital Twin→Isaac→VLA→Capstone, prerequisite gating)
-- VIII. Hardware Assumptions & Target Learners (NEW: RTX 4070 Ti, Jetson Orin Nano, Unitree Go2/G1, cloud alternatives with disclaimers)
-- IX. Learner Feedback as Governance (NEW: weekly review, routing critical/pedagogical/feature requests, feedback metrics)
-- X. Minimal Operational Cost & Transparency (NEW: <$100/month cap, free tier prioritization, learner cost estimates per chapter)
-
-Sections Added:
-- Performance & Reliability Standards (RAG latency p95 <2s, personalization p95 <500ms, 99% uptime, weekly deployments)
-- Content Versioning & Migration (major/minor versioning, learner notifications, backward compatibility)
-- Subagents & Reusable Intelligence Governance (scope definition, versioning, integration gates, deprecation)
-- Enhanced Compliance Checkpoints (weekly, chapter-end, module-end, pre-delivery with specific metrics)
-
-Documentation Standards Expanded:
-- Content: Added learning objectives, key takeaways, ≥3 examples, alt text, video transcripts, prerequisites
-- Accessibility: WCAG 2.1 AA compliance, alt text for diagrams, captions for videos, RTL verification for Urdu
-- Urdu Translation: Native speaker + domain expert review, technical glossary, RTL layout, code remains English
-- RAG Quality & Hallucination Auditing: Mandatory source citations, ≥0.85 cosine similarity threshold, weekly 5% spot-checks, escalation protocol for hallucinations, graceful degradation
-
-Gaps Addressed:
-✅ Gap #1: Student feedback loop (Principle IX, updated compliance checkpoints)
-✅ Gap #2: Vague RAG metrics (RAG Quality section: 0.85 threshold, weekly spot-checks, escalation)
-✅ Gap #3: Hallucination auditing (Mandatory weekly spot-checks, escalation protocol)
-✅ Gap #4: Chapter dependency graph (Principle VII: prerequisite gating)
-✅ Gap #5: Content quality metrics (Principle V: readability, accuracy review, examples)
-✅ Gap #6: Urdu translation standards (Documentation Standards: native speaker, glossary, RTL)
-✅ Gap #7: Content accessibility (Documentation Standards: WCAG 2.1 AA, alt text, captions, transcripts)
-✅ Gap #8: Content versioning (New section: versioning, migration, backward compatibility)
-✅ Gap #9: Cost constraints (Principle X: <$100/month, free tier prioritization)
-✅ Gap #10: Performance SLOs (New section: RAG latency, uptime, deployment frequency)
-✅ Gap #11: Subagents governance (New section: scope, versioning, integration gates, deprecation)
-
-Dependent Templates Validation:
-✅ spec-template.md — Aligns with Principles I, VII (user scenarios, prerequisites)
-✅ plan-template.md — Aligns with Principles I, IV, VII (architecture, structure, prerequisites)
-✅ tasks-template.md — Aligns with Principle IV (chapter-based breakdown, phasing)
-✅ adr-template.md — Aligns with Governance section (decisions for RAG, personalization, Urdu)
-✅ phr-template.md — Aligns with Governance/feedback tracking
-
-Deferred Items: None (all gaps resolved)
-
-Files Modified:
-- .specify/memory/constitution.md (v1.1.0 → v1.2.0 with expansions)
-
-Suggested Commit Message:
-docs: amend constitution to v1.2.0 (add principles VII-X, RAG quality gates, content versioning, subagents governance)
--->
 
 # Physical AI & Humanoid Robotics Textbook Constitution
 
@@ -78,9 +23,19 @@ The textbook MUST support multiple learning paths. Students from different hardw
 
 ### IV. Iterative Chapter-Based Development
 
-Development proceeds module-by-module, chapter-by-chapter, with each chapter independently deployable. A chapter is production-ready only when: spec approved, content written, RAG index built, personalization rules defined, translation complete, acceptance tests pass.
+Development proceeds module-by-module, chapter-by-chapter. Chapters are independently versioned and deployable to staging. A chapter is **production-ready** when ALL of the following are confirmed:
 
-**Rationale**: This enables continuous delivery, early learner feedback, and parallel author/engineer work without blocking the entire textbook launch.
+- Content spec approved by domain lead + pedagogical reviewer
+- Content written + peer-reviewed for clarity and accuracy
+- RAG index built and validated (5% spot-check passed)
+- Personalization rules defined and tested
+- Translation (if applicable) reviewed by native speaker + domain expert
+- Acceptance tests passing (unit + integration + accessibility)
+- Cost audit complete (per-chapter resource usage logged)
+
+Deployment to production requires an additional gate: module-level validation must pass (all chapters in the module verified for coherence and prerequisite correctness).
+
+**Rationale**: This enables continuous delivery, early learner feedback, and parallel author/engineer work without blocking the entire textbook launch. Clear gates prevent premature or incomplete releases.
 
 ### V. Test-First for Code, Validation-First for Content
 
@@ -108,15 +63,27 @@ All code examples and simulation guidance assume: Primary Workstation (NVIDIA RT
 
 ### IX. Learner Feedback as Governance
 
-Student feedback (GitHub issues, chapter comments, survey forms) is reviewed weekly and routed: Critical bugs → immediate hotfix, Pedagogical confusion → content revision + PR, Feature requests → evaluation against Principle VI (scope). Feedback metrics tracked: completion rate, question volume, error patterns per chapter.
+Student feedback is reviewed weekly via designated channels: GitHub discussions (bugs, technical issues), chapter inline comments (content clarity), weekly survey form (overall experience, satisfaction). Routing protocol:
 
-**Rationale**: Living textbooks must evolve with learner needs. Systematic feedback prevents stale content and improves retention.
+- **Critical Bugs** (deployment broken, security issue, RAG hallucination): Hotfix within 24h, learner notified
+- **Pedagogical Confusion** (concept unclear, example wrong, missing prerequisite): Root cause analysis, content revision PR, affected learners notified of updates
+- **Feature Requests**: Evaluated against Principle VI (scope alignment). Out-of-scope requests logged and triaged for future work.
+
+Feedback metrics tracked per chapter: completion rate, avg time spent, questions volume, error patterns, sentiment (survey). Dashboard reviewed weekly by content lead + tech lead. If completion rate drops >10% on a chapter, trigger content review within 5 business days.
+
+**Rationale**: Living textbooks must evolve with learner needs. Systematic feedback prevents stale content and improves retention. Clear channels and routing ensure fast response to critical issues.
 
 ### X. Minimal Operational Cost & Transparency
 
-Monthly operational costs MUST NOT exceed $100 USD (including OpenAI API, Qdrant, Neon, Better-Auth, deployment). Free tiers and low-cost alternatives prioritized. All learner-facing cost estimates (cloud compute, robotics hardware, simulation software) documented per chapter. Cost transparency removes access barriers for students in resource-constrained regions.
+Monthly operational costs MUST NOT exceed $100 USD (OpenAI API, Qdrant, Neon, Better-Auth, deployment). Free tiers and low-cost alternatives prioritized. Cost tracking mechanism:
 
-**Rationale**: Hackathon context demands cost efficiency. Transparent pricing builds trust with students in underserved markets (Pakistan, South Asia).
+- **Daily**: API usage logged (token counts, embeddings, API calls) in cost dashboard.
+- **Weekly**: Cost review conducted by tech lead. If cumulative cost exceeds $60 (60% of budget), optimize immediately (batch API calls, reduce model complexity, consolidate queries).
+- **Monthly**: Full audit. If monthly cost >$100, post-mortem conducted and cost-reduction PR submitted within 5 days.
+
+All learner-facing cost estimates (cloud compute, robotics hardware, simulation software) documented per chapter. Hardware cost estimates updated quarterly. Cost transparency removes access barriers for students in resource-constrained regions.
+
+**Rationale**: Hackathon context demands cost efficiency. Transparent pricing builds trust with students in underserved markets (Pakistan, South Asia). Continuous monitoring prevents budget overruns.
 
 ## Technology Architecture & Standards
 
@@ -205,12 +172,50 @@ Every RAG query result MUST:
   - Documentation clear (when/why to use, failure modes).
 - **Deprecation**: Subagent deprecated if unused for 2+ months or superseded by newer version. 30-day notice given.
 
+### Ownership & Escalation
+
+| Role | Responsibility | Escalation Path |
+|------|---|---|
+| **Content Lead** | Principle II (pedagogy), Principle V (content validation), Principle IX (feedback routing) | Tech Lead if principle violated; Project Lead for scope conflicts |
+| **Tech Lead** | Principle I (spec), Principle IV (production gates), Principle X (cost monitoring) | Project Lead if principles violated; architecture review required |
+| **Accessibility Lead** | Principle III (WCAG 2.1 AA), content standards (alt text, captions) | Content Lead; block chapter if not met |
+| **Project Lead** | Principle VI (scope), amendments, final arbitration on conflicts | Steering committee (if applicable) |
+
+**Escalation Triggers**:
+- Cost exceeds $60 in a week → tech lead investigates within 24h
+- Hallucination detected in RAG → pause feature, root cause analysis, no re-enable without explicit sign-off
+- Content completion rate drops >10% → content lead conducts review within 5 business days
+- Principle violation in PR → rejected; must resubmit aligned with constitution
+
 ### Compliance Checkpoints
 
-- **Weekly**: Task completion, unblocked items, learner feedback volume/sentiment.
-- **Chapter-End**: Content approved by domain expert, RAG index validated, tests passing, cost audit within budget, performance benchmarks met.
-- **Module-End**: All chapters in module complete, accessibility audit passed, Urdu translation (if applicable) validated, subagent integrations documented.
-- **Pre-Delivery**: Full textbook deployed, all bonus objectives evaluated, hallucination audits passed, learner survey >4/5 stars, cost tracking showed <$100/month.
+| Checkpoint | Owner | Success Criteria | Failure Action |
+|---|---|---|---|
+| **Weekly** | Content + Tech Lead | All tasks tracked, no blockers >3 days, feedback volume monitored | Daily standup until blockers cleared |
+| **Chapter-End** | Content Lead + Tech Lead | Spec approved, content peer-reviewed, RAG validated (5% spot-check), tests ≥70% coverage, accessibility audit passed, cost logged | Return to development; retest before retry |
+| **Module-End** | Content Lead + Tech Lead + Accessibility Lead | All chapters production-ready, module-level prerequisite graph validated, Urdu translation (if applicable) verified by native speaker, subagents documented | Hold module release; remediate in next iteration |
+| **Pre-Delivery** | Project Lead | Full textbook deployed to production, all bonus objectives rated, hallucination audits passed (zero hallucinations in sample), learner NPS ≥4/5, monthly cost <$100, deployment logs clean | Delay release; address blockers; revalidate |
+
+### Technical Debt & Refactoring Prioritization
+
+Technical debt and refactoring work is prioritized against new feature development using this framework:
+
+**Tier 1 (Urgent)**: Blocks content delivery or violates a principle.
+- Examples: Security vulnerability, RAG system broken, test coverage <50%, cost exceeding budget
+- Action: Hotfix or sprint allocation; blocks new features until resolved
+
+**Tier 2 (High)**: Increases dev velocity or improves learner experience materially.
+- Examples: Slow CI/CD (>10 min), repetitive manual testing, unclear architecture, high latency (>2s)
+- Action: Allocate 10–20% of sprint capacity; prioritize at planning stage
+
+**Tier 3 (Low)**: Nice-to-have improvements that don't affect delivery.
+- Examples: Code style cleanup, minor test refactors, documentation wording
+- Action: Opportunistic work; include in PR if touching related code; never block on this
+
+**Decision Rule**: If technical debt appears in an active PR, assess its tier:
+- Tier 1: Block and fix.
+- Tier 2: Create linked issue; fix in next sprint if capacity permits.
+- Tier 3: Log for future; don't block current work.
 
 ## Governance
 
@@ -220,17 +225,25 @@ This Constitution supersedes all other development guidance. If a conflict arise
 
 ### Amendment Process
 
-Amendments to the Constitution MUST:
-1. Be justified in writing (rationale, impact on goals, risk mitigation).
-2. Receive approval from Project Lead + Tech Lead.
-3. Be merged via a dedicated PR with the commit message: `docs: amend constitution to vX.Y.Z`.
-4. Trigger a re-evaluation of affected specs, plans, and tasks.
+All amendments to the Constitution require explicit approval and follow semantic versioning:
+
+**Amendment Steps:**
+1. Author writes justification document: rationale, impact on active specs/plans, risk mitigation, examples of how the change improves execution.
+2. Submit as PR with detailed description (not inline edits). Include section "Breaking Changes?" to clarify if active specs/plans must be revised.
+3. Review gate: Project Lead + Tech Lead approve. If amendment affects multiple principles or requires active work to re-align specs, Steering Committee approval required.
+4. Merge with commit: `docs: amend constitution to vX.Y.Z`
+5. **Re-evaluation trigger**: If amendment is MAJOR or affects active modules, affected specs/plans re-evaluated within 5 business days. Non-blocking but documented.
+
+**Breaking Changes Protocol** (when amendment materially changes a principle):
+- Identify all active specs/plans/tasks referencing the changed principle.
+- Issue 5-day notice to affected teams with transition guidance.
+- Provide migration path (e.g., "Old approach still valid through Month X; new approach preferred from Date Y").
 
 ### Version Numbering
 
-- **MAJOR** (1.0 → 2.0): Removal or fundamental redefinition of a principle.
-- **MINOR** (1.0 → 1.1): Addition of new principle, significant new section, or material expansion of guidance.
-- **PATCH** (1.0 → 1.0.1): Clarifications, wording improvements, non-semantic refinements.
+- **MAJOR** (1.0 → 2.0): Removal or fundamental redefinition of a principle. Or: Addition of new, conflicting constraint. Requires steering approval.
+- **MINOR** (1.0 → 1.1): Addition of new principle, major new section, or significant clarification/operationalization of existing principle. Requires Project + Tech Lead approval.
+- **PATCH** (1.0 → 1.0.1): Clarifications, wording, non-semantic refinements, updated examples. Tech Lead approval only.
 
 ### Compliance Enforcement
 
@@ -245,4 +258,4 @@ Amendments to the Constitution MUST:
 - **Decision Logging**: Use `/sp.adr` to document architecturally significant decisions.
 - **Retrospectives**: Use `/sp.phr` to record prompt history and iterate on process.
 
-**Version**: 1.2.0 | **Ratified**: 2025-11-29 | **Last Amended**: 2025-11-29
+**Version**: 1.2.1 | **Ratified**: 2025-11-29 | **Last Amended**: 2025-11-29
