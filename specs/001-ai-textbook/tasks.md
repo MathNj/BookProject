@@ -17,10 +17,10 @@ description: "Task breakdown for Physical AI & Humanoid Robotics Textbook (001-a
 
 **Purpose**: Initialize monorepo structure and shared configuration
 
-- [ ] T001 Create monorepo root structure: `/docs-website` (frontend), `/rag-backend` (backend), `/.github/workflows`
-- [ ] T002 [P] Initialize `.github/workflows/build-deploy.yml` for GitHub Actions CI/CD pipeline
-- [ ] T003 [P] Create `.env.example` with required environment variables (OpenAI key, Qdrant URL, Neon connection string, Better-Auth secrets)
-- [ ] T004 Create root `README.md` with project overview, hardware requirements, and quickstart
+- [x] T001 Create monorepo root structure: `/docs-website` (frontend), `/rag-backend` (backend), `/.github/workflows`
+- [x] T002 [P] Initialize `.github/workflows/build-deploy.yml` for GitHub Actions CI/CD pipeline
+- [x] T003 [P] Create `.env.example` with required environment variables (OpenAI key, Qdrant URL, Neon connection string, Better-Auth secrets)
+- [x] T004 Create root `README.md` with project overview, hardware requirements, and quickstart
 
 ---
 
@@ -32,14 +32,14 @@ description: "Task breakdown for Physical AI & Humanoid Robotics Textbook (001-a
 
 ### Frontend Foundation
 
-- [ ] T005 Initialize Docusaurus v3+ project in `/docs-website`: `npm init -yes && npx create-docusaurus@latest . classic`
-- [ ] T006 [P] Configure `docusaurus.config.ts`: Set site title, URL, baseUrl for GitHub Pages deployment
-- [ ] T007 [P] Configure Docusaurus i18n plugin (`@docusaurus/preset-classic` + locale configuration) for English/Urdu support
-- [ ] T008 [P] Setup CSS modules and RTL layout support in `docusaurus.config.ts` (for Urdu RTL toggle)
-- [ ] T009 [P] Create landing page skeleton: `docs-website/src/pages/index.tsx` with hero section + CTA button
-- [ ] T010 Create curriculum module structure: `/docs-website/docs/01-nervous-system`, `/02-digital-twin`, `/03-robot-brain`, `/04-the-mind`, `/05-capstone`
-- [ ] T011 [P] Create placeholder `intro.md` in each module directory with module title and description
-- [ ] T012 Setup `docusaurus.config.ts` to expose custom hook for client-side language toggle (for Urdu switch)
+- [x] T005 Initialize Docusaurus v3+ project in `/docs-website`: `npm init -yes && npx create-docusaurus@latest . classic`
+- [x] T006 [P] Configure `docusaurus.config.ts`: Set site title, URL, baseUrl for GitHub Pages deployment
+- [x] T007 [P] Configure Docusaurus i18n plugin (`@docusaurus/preset-classic` + locale configuration) for English/Urdu support
+- [x] T008 [P] Setup CSS modules and RTL layout support in `docusaurus.config.ts` (for Urdu RTL toggle)
+- [x] T009 [P] Create landing page skeleton: `docs-website/src/pages/index.tsx` with hero section + CTA button
+- [x] T010 Create curriculum module structure: `/docs-website/docs/01-nervous-system`, `/02-digital-twin`, `/03-robot-brain`, `/04-the-mind`, `/05-capstone`
+- [x] T011 [P] Create placeholder `intro.md` in each module directory with module title and description
+- [x] T012 Setup `docusaurus.config.ts` to expose custom hook for client-side language toggle (for Urdu switch)
 
 ### Backend Foundation
 
