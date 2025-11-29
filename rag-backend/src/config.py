@@ -3,7 +3,7 @@ Configuration module for RAG Backend.
 
 Loads environment variables for:
 - Qdrant vector database connection
-- OpenAI API access
+- Google Gemini API access
 - Database credentials
 - Authentication secrets
 """
@@ -20,10 +20,13 @@ class Settings(BaseSettings):
     qdrant_api_key: Optional[str] = None
     qdrant_collection_name: str = "textbook_content"
 
-    # OpenAI Configuration
-    openai_api_key: str = ""
-    openai_model: str = "text-embedding-3-small"
-    openai_embedding_dimensions: int = 1536
+    # API Configuration (Gemini key used with OpenAI SDK)
+    api_key: str = ""  # Google Gemini API key
+    openai_api_key: str = ""  # Alias for api_key, for backwards compatibility
+    chat_model: str = "gpt-4o-mini"
+    embedding_model: str = "text-embedding-3-small"
+    openai_model: str = "text-embedding-3-small"  # For backwards compatibility
+    openai_embedding_dimensions: int = 1536  # OpenAI embedding vector size
 
     # Database Configuration
     database_url: Optional[str] = None
@@ -53,6 +56,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        extra = "ignore"  # Ignore extra fields from .env file
 
 
 # Create a singleton instance

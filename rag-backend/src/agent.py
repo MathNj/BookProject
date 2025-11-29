@@ -1,5 +1,5 @@
 """
-RAG Agent using OpenAI Agents SDK.
+RAG Agent using OpenAI.
 
 Implements an agent with access to vector store search tool for retrieval-augmented generation.
 The agent answers questions about the robotics textbook using semantic search.
@@ -8,13 +8,15 @@ The agent answers questions about the robotics textbook using semantic search.
 import json
 import logging
 from typing import Any, Optional
-from openai import OpenAI, APIError
+from openai import OpenAI
 from src.services.vector_store import get_vector_store
+from src.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Initialize clients
-openai_client = OpenAI()
+# Configure OpenAI client
+api_key = settings.api_key or settings.openai_api_key
+client = OpenAI(api_key=api_key)
 vector_store = get_vector_store()
 
 # Define the search tool
@@ -100,19 +102,19 @@ Always use the search_book tool to find relevant passages before answering."""
 
 
 class RAGAgent:
-    """Agent for retrieval-augmented generation using OpenAI Agents SDK."""
+    """Agent for retrieval-augmented generation using OpenAI."""
 
-    def __init__(self, model: str = "gpt-4o-mini"):
+    def __init__(self, model: str = None):
         """
         Initialize the RAG Agent.
 
         Args:
-            model: OpenAI model to use for the agent (default: gpt-4o-mini)
+            model: OpenAI model to use for the agent (default from config)
         """
-        self.model = model
-        self.client = openai_client
-        self.tools = [SEARCH_TOOL_DEFINITION]
+        self.model = model or settings.chat_model
         self.system_prompt = SYSTEM_PROMPT
+        self.vector_store = vector_store
+        self.client = client
 
     def _process_tool_call(self, tool_name: str, tool_input: dict) -> str:
         """
@@ -140,113 +142,66 @@ class RAGAgent:
 
         Returns:
             str: The agent's response to the user
-
-        Raises:
-            APIError: If the OpenAI API call fails
         """
         try:
-            # Add system prompt to messages
-            system_message = {
-                "role": "system",
-                "content": self.system_prompt
-            }
+            # Prepare messages with system prompt
+            system_message = {"role": "system", "content": self.system_prompt}
+            all_messages = [system_message] + messages
 
-            # Create conversation with system message
-            conversation_messages = [system_message] + messages
-
-            # Initial API call
+            # Call OpenAI with tools
+            logger.info(f"Calling OpenAI model: {self.model}")
             response = self.client.chat.completions.create(
                 model=self.model,
-                messages=conversation_messages,
-                tools=self.tools,
+                messages=all_messages,
+                tools=[SEARCH_TOOL_DEFINITION],
                 tool_choice="auto",
             )
 
-            # Process response and handle tool calls in agentic loop
-            max_iterations = 10
-            iteration = 0
+            # Process the response
+            while response.choices[0].finish_reason == "tool_calls":
+                # Extract tool calls
+                tool_calls = response.choices[0].message.tool_calls
 
-            while iteration < max_iterations:
-                iteration += 1
-
-                # Check if we got a response or need to process tool calls
-                if response.stop_reason == "stop":
-                    # Agent finished, return the final message
-                    final_message = response.choices[0].message.content
-                    return final_message or "No response generated"
-
-                if response.stop_reason == "tool_calls":
-                    # Process tool calls
-                    assistant_message = response.choices[0].message
-
-                    # Add assistant's message to conversation
-                    conversation_messages.append({
-                        "role": "assistant",
-                        "content": assistant_message.content,
-                        "tool_calls": [
-                            {
-                                "id": tc.id,
-                                "type": "function",
-                                "function": {
-                                    "name": tc.function.name,
-                                    "arguments": tc.function.arguments
-                                }
-                            }
-                            for tc in assistant_message.tool_calls
-                        ] if assistant_message.tool_calls else []
+                # Process each tool call
+                tool_results = []
+                for tool_call in tool_calls:
+                    logger.info(f"Processing tool call: {tool_call.function.name}")
+                    tool_result = self._process_tool_call(
+                        tool_call.function.name,
+                        json.loads(tool_call.function.arguments)
+                    )
+                    tool_results.append({
+                        "type": "tool",
+                        "tool_use_id": tool_call.id,
+                        "content": tool_result
                     })
 
-                    # Process each tool call
-                    tool_results = []
-                    for tool_call in assistant_message.tool_calls or []:
-                        try:
-                            tool_input = json.loads(tool_call.function.arguments)
-                            tool_result = self._process_tool_call(
-                                tool_call.function.name,
-                                tool_input
-                            )
+                # Continue conversation with tool results
+                all_messages.append(response.choices[0].message)
+                all_messages.append({
+                    "role": "user",
+                    "content": tool_results
+                })
 
-                            tool_results.append({
-                                "type": "tool",
-                                "tool_use_id": tool_call.id,
-                                "content": tool_result
-                            })
-                        except json.JSONDecodeError as e:
-                            logger.error(f"Failed to parse tool arguments: {e}")
-                            tool_results.append({
-                                "type": "tool",
-                                "tool_use_id": tool_call.id,
-                                "content": json.dumps({"error": "Invalid tool input"})
-                            })
+                # Get next response
+                response = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=all_messages,
+                    tools=[SEARCH_TOOL_DEFINITION],
+                    tool_choice="auto",
+                )
 
-                    # Add tool results to conversation
-                    for result in tool_results:
-                        conversation_messages.append({
-                            "role": "user",
-                            "content": result["content"]
-                        })
+            # Extract final response text
+            final_response = response.choices[0].message.content
+            if final_response:
+                logger.info("Successfully generated response from OpenAI")
+                return final_response
+            else:
+                logger.warning("OpenAI returned empty response")
+                return "I couldn't generate a response. Please try again."
 
-                    # Continue the conversation with tool results
-                    response = self.client.chat.completions.create(
-                        model=self.model,
-                        messages=conversation_messages,
-                        tools=self.tools,
-                        tool_choice="auto",
-                    )
-                else:
-                    # Unexpected stop reason
-                    logger.warning(f"Unexpected stop_reason: {response.stop_reason}")
-                    return response.choices[0].message.content or "No response generated"
-
-            # Max iterations reached
-            logger.warning("Agent reached maximum iterations without completing")
-            return "Agent loop exceeded maximum iterations. Please try again."
-
-        except APIError as e:
-            logger.error(f"OpenAI API error in agent.run: {e}")
-            raise
         except Exception as e:
-            logger.error(f"Unexpected error in agent.run: {e}")
+            logger.error(f"Error in agent.run: {e}")
             raise
 
 
@@ -254,7 +209,7 @@ class RAGAgent:
 _agent_instance: Optional[RAGAgent] = None
 
 
-def get_agent(model: str = "gpt-4o-mini") -> RAGAgent:
+def get_agent(model: str = None) -> RAGAgent:
     """
     Get the singleton RAG Agent instance.
 

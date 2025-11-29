@@ -1,32 +1,31 @@
 """
-Vector Store Service using Qdrant Cloud.
+Google Gemini Client Service.
 
 Handles:
-- Connection to Qdrant vector database
-- Embedding generation using OpenAI
+- Embedding generation using Google's embedding model
 - Text search with semantic similarity
-- Collection management
+- Collection management with Qdrant
 """
 
-from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams, PointStruct
-from openai import OpenAI
 import logging
 from typing import List, Dict, Any, Optional
+import google.generativeai as genai
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct
 from src.config import settings
 
 logger = logging.getLogger(__name__)
 
+# Configure Gemini API
+genai.configure(api_key=settings.google_api_key)
 
-class VectorStoreService:
-    """Service for managing embeddings and vector search in Qdrant."""
+
+class GeminiVectorStore:
+    """Service for managing embeddings and vector search with Gemini and Qdrant."""
 
     def __init__(self):
-        """Initialize Qdrant and OpenAI clients."""
+        """Initialize Qdrant and Gemini clients."""
         self.qdrant_client = self._get_qdrant_client()
-        # Use api_key if openai_api_key is empty (for Gemini key usage)
-        api_key = settings.openai_api_key or settings.api_key
-        self.openai_client = OpenAI(api_key=api_key)
         self.collection_name = settings.qdrant_collection_name
         self._ensure_collection_exists()
 
@@ -44,7 +43,7 @@ class VectorStoreService:
             raise ValueError("QDRANT_URL environment variable is required")
 
         try:
-            # Create client - handles both local and cloud URLs
+            # Create client with API key for Qdrant Cloud
             client = QdrantClient(
                 url=settings.qdrant_url,
                 api_key=settings.qdrant_api_key,
@@ -68,7 +67,7 @@ class VectorStoreService:
                 self.qdrant_client.create_collection(
                     collection_name=self.collection_name,
                     vectors_config=VectorParams(
-                        size=settings.openai_embedding_dimensions,
+                        size=768,  # Google embedding model produces 768-dimensional vectors
                         distance=Distance.COSINE,
                     ),
                 )
@@ -81,27 +80,27 @@ class VectorStoreService:
 
     def embed_text(self, text: str) -> List[float]:
         """
-        Generate embedding for text using OpenAI.
+        Generate embedding for text using Google Gemini.
 
         Args:
             text: Text to embed
 
         Returns:
-            List[float]: Embedding vector (1536 dimensions)
+            List[float]: Embedding vector (768 dimensions)
 
         Raises:
             ValueError: If text is empty
-            Exception: If OpenAI API call fails
+            Exception: If Gemini API call fails
         """
         if not text or not text.strip():
             raise ValueError("Text cannot be empty for embedding")
 
         try:
-            response = self.openai_client.embeddings.create(
-                input=text.strip(),
-                model=settings.openai_model,
+            response = genai.embed_content(
+                model=settings.embedding_model,
+                content=text.strip(),
             )
-            embedding = response.data[0].embedding
+            embedding = response["embedding"]
             logger.debug(f"✓ Generated embedding for {len(text)} chars")
             return embedding
         except Exception as e:
@@ -250,14 +249,14 @@ class VectorStoreService:
 
 
 # Create singleton instance
-vector_store = VectorStoreService()
+vector_store = GeminiVectorStore()
 
 
-def get_vector_store() -> VectorStoreService:
+def get_vector_store() -> GeminiVectorStore:
     """
     Get the vector store service instance.
 
     Returns:
-        VectorStoreService: Singleton instance
+        GeminiVectorStore: Singleton instance
     """
     return vector_store
