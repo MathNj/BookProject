@@ -25,10 +25,11 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# CORS Configuration - Allow GitHub Pages frontend
+# CORS Configuration - Allow frontend and development servers
 origins = [
-    "http://localhost:3000",  # Local development
-    "http://localhost:5173",  # Vite dev server
+    "http://localhost:3000",  # Local development - PRIMARY
+    "http://localhost:3001",  # Docusaurus on secondary port (fallback)
+    "http://localhost:5173",  # Vite dev server (alternative)
     os.getenv("FRONTEND_URL", "https://example.github.io"),  # Production frontend URL
 ]
 
