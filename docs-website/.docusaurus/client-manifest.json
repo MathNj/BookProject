@@ -124,7 +124,7 @@
       "js": [
         {
           "file": "assets/js/runtime~main.8927b267.js",
-          "hash": "eb4c4c7bed2e8379",
+          "hash": "dc32da8046d02c28",
           "publicPath": "/BookProject/ur/assets/js/runtime~main.8927b267.js"
         }
       ]
@@ -204,9 +204,9 @@
     "792": {
       "js": [
         {
-          "file": "assets/js/main.b58a5112.js",
-          "hash": "18583fae56ccaaac",
-          "publicPath": "/BookProject/ur/assets/js/main.b58a5112.js"
+          "file": "assets/js/main.f5b60226.js",
+          "hash": "15e6ebe4d82654a8",
+          "publicPath": "/BookProject/ur/assets/js/main.f5b60226.js"
         }
       ]
     },

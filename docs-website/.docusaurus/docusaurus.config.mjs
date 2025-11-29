@@ -50,9 +50,9 @@ export default {
   "themeConfig": {
     "image": "img/docusaurus-social-card.jpg",
     "navbar": {
-      "title": "Physical AI Textbook",
+      "title": "فزیکل AI اور ہیومانوئڈ روبوٹکس ٹیکسٹ بک",
       "logo": {
-        "alt": "Site Logo",
+        "alt": "سائٹ لوگو",
         "src": "img/logo.svg"
       },
       "items": [
@@ -69,45 +69,45 @@ export default {
       "style": "dark",
       "links": [
         {
-          "title": "Curriculum",
+          "title": "نصاب",
           "items": [
             {
-              "label": "Module 1: The Nervous System",
+              "label": "ماڈیول 1: نرووس سسٹم (ROS 2)",
               "to": "/01-nervous-system"
             },
             {
-              "label": "Module 2: Digital Twin",
+              "label": "ماڈیول 2: ڈیجیٹل ٹوئن",
               "to": "/02-digital-twin"
             },
             {
-              "label": "Module 3: Robot Brain",
+              "label": "ماڈیول 3: روبوٹ کا دماغ",
               "to": "/03-robot-brain"
             },
             {
-              "label": "Module 4: The Mind",
+              "label": "ماڈیول 4: ذہن",
               "to": "/04-the-mind"
             },
             {
-              "label": "Module 5: Capstone",
+              "label": "ماڈیول 5: اختتامی منصوبہ",
               "to": "/05-capstone"
             }
           ]
         },
         {
-          "title": "Resources",
+          "title": "وسائل",
           "items": [
             {
-              "label": "GitHub",
+              "label": "گِٹ ہب",
               "href": "https://github.com/username/BookProject"
             },
             {
-              "label": "Specification",
+              "label": "تفصیلات",
               "href": "https://github.com/username/BookProject/blob/main/specs/001-ai-textbook/spec.md"
             }
           ]
         }
       ],
-      "copyright": "Copyright © 2025 Physical AI Textbook. Built with Docusaurus."
+      "copyright": "کاپی رائٹ © 2025 فزیکل AI اور ہیومانوئڈ روبوٹکس ٹیکسٹ بک۔ Docusaurus کے ساتھ بنایا گیا۔"
     },
     "colorMode": {
       "defaultMode": "light",

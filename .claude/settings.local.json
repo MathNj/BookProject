@@ -17,7 +17,13 @@
       "Bash(npm init:*)",
       "Bash(npx create-docusaurus@latest . classic --typescript)",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(echo:*)",
+      "Bash(curl:*)",
+      "Bash(for module in \"nervous-system\" \"digital-twin\" \"robot-brain\" \"the-mind\" \"capstone\")",
+      "Bash(do curl -s -o /dev/null -w \"  - $module: %{http_code}\\n\" http://localhost:3000/BookProject/$module/intro/)",
+      "Bash(done)",
+      "Bash(npm run write-translations:*)"
     ],
     "deny": [],
     "ask": []

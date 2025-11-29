@@ -23,7 +23,7 @@
       "htmlLang": "ur",
       "calendar": "gregory",
       "path": "ur",
-      "translate": false,
+      "translate": true,
       "url": "https://username.github.io",
       "baseUrl": "/BookProject/ur/"
     }
