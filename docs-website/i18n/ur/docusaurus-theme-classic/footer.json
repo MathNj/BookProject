@@ -35,8 +35,16 @@
     "message": "تفصیلات",
     "description": "The label of footer link with label=Specification linking to https://github.com/username/BookProject/blob/main/specs/001-ai-textbook/spec.md"
   },
+  "link.item.label.NVIDIA Isaac Sim": {
+    "message": "NVIDIA Isaac Sim",
+    "description": "The label of footer link with label=NVIDIA Isaac Sim linking to https://docs.omniverse.nvidia.com/isaacsim/latest/"
+  },
+  "link.item.label.ROS 2 Documentation": {
+    "message": "ROS 2 دستاویزات",
+    "description": "The label of footer link with label=ROS 2 Documentation linking to https://docs.ros.org/en/humble/"
+  },
   "copyright": {
-    "message": "کاپی رائٹ © 2025 فزیکل AI اور ہیومانوئڈ روبوٹکس ٹیکسٹ بک۔ Docusaurus کے ساتھ بنایا گیا۔",
+    "message": "© 2024 فزیکل AI اقدام۔ Spec-Kit Plus کے ساتھ بنایا گیا۔",
     "description": "The footer copyright"
   }
 }

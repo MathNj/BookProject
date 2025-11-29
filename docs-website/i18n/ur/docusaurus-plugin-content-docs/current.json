@@ -1,26 +1,26 @@
 {
   "version.label": {
-    "message": "Next",
+    "message": "اگلا",
     "description": "The label for version current"
   },
   "sidebar.mainSidebar.category.Module 1: The Nervous System (ROS 2)": {
-    "message": "Module 1: The Nervous System (ROS 2)",
+    "message": "ماڈیول 1: نرووس سسٹم (ROS 2)",
     "description": "The label for category 'Module 1: The Nervous System (ROS 2)' in sidebar 'mainSidebar'"
   },
   "sidebar.mainSidebar.category.Module 2: Digital Twin (Simulation)": {
-    "message": "Module 2: Digital Twin (Simulation)",
+    "message": "ماڈیول 2: ڈیجیٹل ٹوئن (سمیولیشن)",
     "description": "The label for category 'Module 2: Digital Twin (Simulation)' in sidebar 'mainSidebar'"
   },
   "sidebar.mainSidebar.category.Module 3: Robot Brain (Isaac Sim & VLA)": {
-    "message": "Module 3: Robot Brain (Isaac Sim & VLA)",
+    "message": "ماڈیول 3: روبوٹ کا دماغ (Isaac Sim & VLA)",
     "description": "The label for category 'Module 3: Robot Brain (Isaac Sim & VLA)' in sidebar 'mainSidebar'"
   },
   "sidebar.mainSidebar.category.Module 4: The Mind (Vision Language Models)": {
-    "message": "Module 4: The Mind (Vision Language Models)",
+    "message": "ماڈیول 4: ذہن (وژن لینگویج ماڈلز)",
     "description": "The label for category 'Module 4: The Mind (Vision Language Models)' in sidebar 'mainSidebar'"
   },
   "sidebar.mainSidebar.category.Module 5: Capstone Project": {
-    "message": "Module 5: Capstone Project",
+    "message": "ماڈیول 5: اختتامی منصوبہ",
     "description": "The label for category 'Module 5: Capstone Project' in sidebar 'mainSidebar'"
   }
 }

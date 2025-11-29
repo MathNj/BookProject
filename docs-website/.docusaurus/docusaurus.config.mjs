@@ -109,13 +109,13 @@ export default {
               "href": "https://docs.omniverse.nvidia.com/isaacsim/latest/"
             },
             {
-              "label": "ROS 2 Documentation",
+              "label": "ROS 2 دستاویزات",
               "href": "https://docs.ros.org/en/humble/"
             }
           ]
         }
       ],
-      "copyright": "کاپی رائٹ © 2025 فزیکل AI اور ہیومانوئڈ روبوٹکس ٹیکسٹ بک۔ Docusaurus کے ساتھ بنایا گیا۔"
+      "copyright": "© 2024 فزیکل AI اقدام۔ Spec-Kit Plus کے ساتھ بنایا گیا۔"
     },
     "colorMode": {
       "defaultMode": "light",
