@@ -88,10 +88,10 @@ An author writes a new chapter in Markdown, includes learning objectives, exampl
 
 ### Edge Cases
 
-- What happens when a student asks the RAG chatbot about a topic not covered in any chapter? → System responds: "I don't have information on this in the textbook. Please refer to Chapter X or ask an instructor."
-- What if a student's hardware (e.g., CPU-only machine) doesn't meet the RTX 4070 Ti assumption? → System provides alternative lab options (cloud-based) with cost disclaimers.
-- What if Urdu translation is incomplete for a chapter? → System displays a note: "Urdu translation coming soon. Viewing English version." and falls back to English.
-- What if the RAG index fails to build during deployment? → Build fails, chapter is not deployed. Author receives error log and can retry after fixing issues.
+- **RAG out-of-scope query**: What happens when a student asks the RAG chatbot about a topic not covered in any chapter? → System responds: "I don't have information on this in the textbook. Please refer to Chapter X or ask an instructor."
+- **Hardware mismatch (clarified)**: What if a student's hardware (e.g., mobile, CPU-only machine) doesn't meet chapter requirements (Isaac Sim, VSLAM)? → System detects via WebGL/device memory heuristics and shows non-blocking warning banner: "This chapter requires GPU hardware. [View cloud lab alternatives]". User can proceed to read theory or click to cloud options (Google Colab, Paperspace, AWS).
+- **Incomplete Urdu translation**: What if Urdu translation is incomplete for a chapter? → System displays banner: "Urdu translation coming soon. Viewing English version." and renders English content.
+- **RAG ingestion failure**: What if the RAG index fails to build during deployment? → Docusaurus build succeeds, but RAG ingestion step fails → deployment blocks (chapter not live). Author receives error log and retries after fixing issues (e.g., malformed chapter sections, embedding API rate limit).
 
 ## Requirements *(mandatory)*
 
@@ -124,10 +124,10 @@ An author writes a new chapter in Markdown, includes learning objectives, exampl
 
 #### Authentication & Profiling
 
-- **FR-017**: System MUST integrate `better-auth` for secure user signup/login (email + password, OAuth2 optional).
+- **FR-017**: System MUST integrate `better-auth` for secure user signup/login (email + password, OAuth2 optional). Backend MUST expose `/api/profile` endpoint (protected by JWT) for profile management.
 - **FR-018**: On signup, system MUST collect a user profile: background preference (hardware vs. software vs. balanced).
-- **FR-019**: System MUST securely store user profiles in Neon database with encrypted passwords.
-- **FR-020**: Users MUST be able to view and update their profile at any time.
+- **FR-019**: System MUST securely store user profiles in Neon Serverless Postgres with encrypted passwords (handled by better-auth). Sessions managed via JWT tokens (stored in browser localStorage, refresh tokens rotated server-side).
+- **FR-020**: Users MUST be able to view and update their profile at any time via `/api/profile` endpoint.
 
 #### Personalization
 
@@ -138,19 +138,19 @@ An author writes a new chapter in Markdown, includes learning objectives, exampl
 
 #### Localization (Urdu)
 
-- **FR-025**: System MUST include a language toggle button (English / Urdu) in the header, visible on every page.
-- **FR-026**: Clicking "Translate to Urdu" MUST translate all explanatory text (paragraphs, learning objectives, key takeaways, examples) to Urdu within 1 second.
+- **FR-025**: System MUST include a language toggle button (English / Urdu) in the header, visible on every page. Switching languages MUST be client-side (no API call).
+- **FR-026**: Clicking "Translate to Urdu" MUST load pre-built Urdu markdown files (`chapter.ur.md`) and render within <100ms (<1s page re-render). All explanatory text (paragraphs, learning objectives, key takeaways, examples) MUST be in Urdu.
 - **FR-027**: Code examples, terminal outputs, and code comments MUST remain in English even when Urdu is active.
-- **FR-028**: When Urdu is active, page layout MUST adjust to RTL (right-to-left) formatting.
-- **FR-029**: Urdu translations MUST be reviewed by a native Urdu speaker + domain expert before deployment. Technical glossary MUST be maintained.
-- **FR-030**: System MUST gracefully fall back to English if Urdu translation is incomplete for a chapter.
+- **FR-028**: When Urdu is active, page layout MUST adjust to RTL (right-to-left) formatting via Docusaurus i18n configuration.
+- **FR-029**: Urdu translations MUST be generated at build time (Docusaurus CI/CD → OpenAI API → native speaker review → `.ur.md` files). All translations MUST be reviewed by a native Urdu speaker + domain expert before merge. Technical glossary MUST be maintained.
+- **FR-030**: System MUST gracefully fall back to English if Urdu translation is incomplete for a chapter (banner: "Urdu translation coming soon").
 
 #### Deployment & CI/CD
 
 - **FR-031**: GitHub Actions workflow MUST run on every commit to `main` or merge to `main`.
-- **FR-032**: Workflow MUST: (a) lint content, (b) build Docusaurus, (c) update RAG index, (d) run performance benchmarks, (e) deploy to GitHub Pages.
-- **FR-033**: If any step fails, deployment MUST stop and notify the author with detailed error logs.
-- **FR-034**: Successful deployments MUST complete within 10 minutes.
+- **FR-032**: Workflow MUST: (a) lint content, (b) build Docusaurus (including Urdu translation generation + native speaker review gate), (c) update RAG index (automatic batch ingestion to Qdrant), (d) run performance benchmarks, (e) deploy to GitHub Pages. RAG ingestion MUST complete within 2 minutes.
+- **FR-033**: If any step fails, deployment MUST stop and notify the author with detailed error logs. If RAG ingestion fails, block deployment (requires manual intervention).
+- **FR-034**: Successful deployments MUST complete within 10 minutes (excluding manual review gates like Urdu translation approval).
 
 #### Reusable Intelligence (Claude Skills)
 
@@ -237,6 +237,53 @@ An author writes a new chapter in Markdown, includes learning objectives, exampl
 
 ---
 
+## Clarifications
+
+### Session 2025-11-29
+
+- **Q1: Backend Hosting & CORS** → A: Vercel/Railway (serverless Python) with explicit CORS allowlist for GitHub Pages frontend.
+- **Q2: Auth & Profile Persistence** → A: Better-Auth + FastAPI custom endpoint for profile management; user profiles stored in Neon Postgres with encrypted passwords.
+- **Q3: RAG Ingestion Trigger** → A: Automatic ingestion on every successful Docusaurus build via GitHub Actions; embeds new/modified chapters to Qdrant within ~2 minutes.
+- **Q4: Urdu Translation Strategy** → A: Pre-built at Docusaurus build time; static Urdu files generated during CI/CD and toggled client-side (<100ms). Requires native Urdu speaker + domain expert review per chapter.
+- **Q5: Hardware Fallback Behavior** → A: Warning banner on GPU-intensive chapters (Isaac Sim, VSLAM) with cloud lab alternatives and cost disclaimers. Non-blocking; users can proceed to read or redirect to cloud options.
+
+---
+
+## Architecture Decisions (from Clarifications)
+
+### Backend Deployment
+- **Hosting**: FastAPI backend on Vercel or Railway (serverless, <$20/mo combined with frontend CORS allowlist).
+- **CORS Policy**: Allow requests from `https://github-pages-domain.github.io` (allowlist, not wildcard).
+- **Database**: Neon Serverless Postgres (free tier supports initial load; monitored for scaling).
+
+### Authentication & User Profiles
+- **Flow**: Better-Auth handles signup/login; FastAPI exposes `/api/profile` endpoint (protected by JWT from Better-Auth).
+- **Storage**: User profiles (email, background preference, preferences) persisted in Neon; passwords encrypted (better-auth manages hashing).
+- **Session**: JWT tokens, stored in browser localStorage; refresh tokens rotated on server-side.
+
+### RAG Ingestion & Indexing
+- **Trigger**: GitHub Actions workflow on every successful Docusaurus build.
+- **Process**: Extract chapter frontmatter + sections → embed via OpenAI API → upsert to Qdrant.
+- **Cost Control**: Batch API calls; embed only new/modified chapters (delta indexing). Monitor token usage weekly.
+- **Failure Handling**: If ingestion fails, build succeeds but deployment blocked (requires manual intervention + retry).
+
+### Urdu Localization (Pre-Built)
+- **Build Process**: During Docusaurus build, for each chapter:
+  1. Extract English markdown frontmatter + body.
+  2. Send to OpenAI for translation → review by native speaker (blocking step in CI).
+  3. Write `chapter.ur.md` alongside `chapter.md`.
+  4. Configure Docusaurus i18n to load `.ur.md` files when locale = Urdu.
+- **Toggle UX**: Client-side language switch (no API call) → re-renders page with `.ur.md` content (<100ms).
+- **Fallback**: If `.ur.md` missing, show banner "Urdu translation coming soon" and render English.
+
+### Hardware Fallback Strategy
+- **Chapter Metadata**: Add `requiredHardware: ["GPU", "Jetson"]` to chapter frontmatter (e.g., Isaac Sim chapters).
+- **Client Detection**: On page load, check device type (mobile, tablet, CPU-only heuristic) via feature detection (WebGL, device memory API).
+- **Warning Banner**: If user device doesn't match chapter requirements, show non-blocking banner: "This chapter requires [hardware]. [View cloud lab alternatives →]"
+- **Cloud Alternatives**: Link to Google Colab / Paperspace / AWS notebooks with pre-configured environments (maintained as bonus task).
+
+---
+
 ## Open Questions / Clarifications Needed
 
-None at this stage. All critical requirements are defined with reasonable defaults based on the Constitution and hackathon context.
+None at this stage. All critical architectural decisions finalized. Ready for `/sp.plan` phase.
