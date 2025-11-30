@@ -5,9 +5,9 @@ const config = {
   tagline: 'An AI-native, interactive textbook teaching embodied intelligence with real robots and simulations.',
   favicon: 'img/favicon.ico',
 
-  url: 'https://username.github.io',
+  url: 'https://mathnj.github.io',
   baseUrl: '/BookProject/',
-  organizationName: 'username',
+  organizationName: 'MathNj',
   projectName: 'BookProject',
   deploymentBranch: 'gh-pages',
 
@@ -35,7 +35,7 @@ const config = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/username/BookProject/tree/main/docs-website/',
+          editUrl: 'https://github.com/MathNj/BookProject/tree/main/docs-website/',
           routeBasePath: '/',
         },
         blog: false,
@@ -67,18 +67,18 @@ const config = {
         {
           title: 'Curriculum',
           items: [
-            { label: 'Module 1: The Nervous System', to: '/01-nervous-system' },
-            { label: 'Module 2: Digital Twin', to: '/02-digital-twin' },
-            { label: 'Module 3: Robot Brain', to: '/03-robot-brain' },
-            { label: 'Module 4: The Mind', to: '/04-the-mind' },
-            { label: 'Module 5: Capstone', to: '/05-capstone' },
+            { label: 'Module 1: The Nervous System', to: '/nervous-system/getting-started' },
+            { label: 'Module 2: Digital Twin', to: '/digital-twin-sim/getting-started' },
+            { label: 'Module 3: Robot Brain', to: '/robot-brain/intro' },
+            { label: 'Module 4: The Mind', to: '/the-mind/intro' },
+            { label: 'Module 5: Capstone', to: '/capstone/intro' },
           ],
         },
         {
           title: 'Resources',
           items: [
-            { label: 'GitHub', href: 'https://github.com/username/BookProject' },
-            { label: 'Specification', href: 'https://github.com/username/BookProject/blob/main/specs/001-ai-textbook/spec.md' },
+            { label: 'GitHub', href: 'https://github.com/MathNj/BookProject' },
+            { label: 'Specification', href: 'https://github.com/MathNj/BookProject/blob/main/specs/001-ai-textbook/spec.md' },
             { label: 'NVIDIA Isaac Sim', href: 'https://docs.omniverse.nvidia.com/isaacsim/latest/' },
             { label: 'ROS 2 Documentation', href: 'https://docs.ros.org/en/humble/' },
           ],

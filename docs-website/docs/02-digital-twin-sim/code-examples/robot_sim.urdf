@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<!--
+  robot_sim.urdf
+  ==============
+  A 2-joint robot arm with LiDAR, depth camera, and IMU sensors.
+
+  This robot is designed for Module 2 simulation exercises:
+  - Base link (fixed)
+  - Upper arm (shoulder joint)
+  - Forearm (elbow joint)
+  - LiDAR at base (360° obstacle detection)
+  - Depth camera at end-effector (RGB-D imaging)
+  - IMU on body (orientation estimation)
+
+  Usage in Gazebo:
+    1. ros2 launch gazebo_ros gazebo.launch.py world:=simple_world.sdf
+    2. ros2 launch gazebo_ros spawn_model.launch.py model:=robot_sim.urdf
+-->
+
+<robot name="robot_arm">
+
+  <!-- ========================================
+       LINK 1: Base (Fixed to ground)
+       ======================================== -->
+  <link name="base_link">
+    <!-- Mass and inertia for physics simulation -->
+    <inertial>
+      <mass value="2.0"/>
+      <!-- Inertia matrix (moment of inertia) -->
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+
+    <!-- Visual appearance: gray cylinder (base) -->
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.1"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision shape: same as visual for physics -->
+    <collision>
+      <geometry>
+        <cylinder length="0.15" radius="0.1"/>
+      </geometry>
+    </collision>
+
+    <!-- ========================================
+         SENSOR 1: LiDAR (2D Laser Scanner)
+         ======================================== -->
+    <sensor name="lidar" type="ray">
+      <!-- Position: 0.1m above base center -->
+      <pose>0 0 0.1 0 0 0</pose>
+
+      <!-- Ray scanning parameters -->
+      <ray>
+        <scan>
+          <!-- Horizontal scan: 360° -->
+          <horizontal>
+            <samples>1024</samples>        <!-- 1024 rays per rotation -->
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle> <!-- -180° left -->
+            <max_angle>3.14159</max_angle>  <!-- +180° right -->
+          </horizontal>
+        </scan>
+
+        <!-- Range: 0.1m to 40m -->
+        <range>
+          <min>0.1</min>
+          <max>40.0</max>
+          <resolution>0.01</resolution>  <!-- 1cm resolution -->
+        </range>
+
+        <!-- Gaussian noise: ±1cm standard deviation -->
+        <noise>
+          <type>gaussian</type>
+          <mean>0</mean>
+          <stddev>0.01</stddev>  <!-- Realistic measurement noise -->
+        </noise>
+      </ray>
+    </sensor>
+
+    <!-- ========================================
+         SENSOR 3: IMU (on base)
+         ======================================== -->
+    <sensor name="imu" type="imu">
+      <!-- Position: at center of mass -->
+      <pose>0 0 0.0 0 0 0</pose>
+
+      <!-- IMU properties (accelerometer + gyroscope) -->
+      <imu>
+        <!-- Linear accelerometer (m/s²) with noise on each axis -->
+        <linear_acceleration>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>  <!-- ±0.002 m/s² noise (realistic) -->
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.002</stddev>
+            </noise>
+          </z>
+        </linear_acceleration>
+
+        <!-- Angular velocity (gyroscope in rad/s) with noise -->
+        <angular_velocity>
+          <x>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.0001</stddev>  <!-- ±0.0001 rad/s noise -->
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.0001</stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0</mean>
+              <stddev>0.0001</stddev>
+            </noise>
+          </z>
+        </angular_velocity>
+      </imu>
+    </sensor>
+
+  </link>
+
+  <!-- ========================================
+       JOINT 1: Shoulder (Revolute)
+       Connects: base_link → upper_arm
+       Type: Rotation around Z axis
+       ======================================== -->
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="upper_arm"/>
+
+    <!-- Position: at top of base cylinder -->
+    <origin xyz="0 0 0.075" rpy="0 0 0"/>
+
+    <!-- Axis of rotation: Z (vertical) -->
+    <axis xyz="0 0 1"/>
+
+    <!-- Joint limits (prevents unlimited rotation) -->
+    <limit lower="0" upper="3.14159" effort="10" velocity="1.57"/>
+    <!-- effort: max torque (N·m), velocity: max speed (rad/s) -->
+
+    <!-- Friction in joint -->
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- ========================================
+       LINK 2: Upper Arm
+       ======================================== -->
+  <link name="upper_arm">
+    <!-- Mass: 0.5 kg (lighter than base) -->
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.005" ixy="0" ixz="0"
+               iyy="0.005" iyz="0" izz="0.005"/>
+    </inertial>
+
+    <!-- Visual: blue cylinder (0.5m long) -->
+    <visual>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>  <!-- Center at 0.25m -->
+      <geometry>
+        <cylinder length="0.5" radius="0.03"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+
+    <!-- Collision: same dimensions as visual -->
+    <collision>
+      <origin xyz="0 0 0.25" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.5" radius="0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       JOINT 2: Elbow (Revolute)
+       Connects: upper_arm → forearm
+       Type: Rotation around Z axis
+       ======================================== -->
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm"/>
+    <child link="forearm"/>
+
+    <!-- Position: at end of upper arm (0.5m up from shoulder) -->
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+
+    <!-- Axis of rotation: Z (same as shoulder) -->
+    <axis xyz="0 0 1"/>
+
+    <!-- Joint limits: same as shoulder -->
+    <limit lower="0" upper="3.14159" effort="5" velocity="1.57"/>
+    <!-- effort: 5 N·m (weaker than shoulder) -->
+
+    <!-- Friction in joint -->
+    <dynamics damping="0.05" friction="0.0"/>
+  </joint>
+
+  <!-- ========================================
+       LINK 3: Forearm
+       ======================================== -->
+  <link name="forearm">
+    <!-- Mass: 0.3 kg (lighter than upper arm) -->
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.003" ixy="0" ixz="0"
+               iyy="0.003" iyz="0" izz="0.003"/>
+    </inertial>
+
+    <!-- Visual: red cylinder (0.4m long) -->
+    <visual>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>  <!-- Center at 0.2m -->
+      <geometry>
+        <cylinder length="0.4" radius="0.02"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+
+    <!-- Collision: same dimensions -->
+    <collision>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.4" radius="0.02"/>
+      </geometry>
+    </collision>
+
+    <!-- ========================================
+         SENSOR 2: Depth Camera (at end-effector)
+         ======================================== -->
+    <sensor name="depth_camera" type="camera">
+      <!-- Position: at tip of arm (end-effector) -->
+      <pose>0 0 0.4 0 0 0</pose>
+
+      <!-- Camera properties -->
+      <camera>
+        <!-- Image resolution: 640x480 (VGA) -->
+        <horizontal_fov>1.047</horizontal_fov>  <!-- 60° field of view -->
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>  <!-- RGB color format -->
+        </image>
+
+        <!-- Depth sensing: also output depth map -->
+        <depth_camera>
+          <output>depths</output>
+        </depth_camera>
+
+        <!-- Clipping planes: don't render outside this range -->
+        <clip>
+          <near>0.01</near>   <!-- 1cm minimum (very close) -->
+          <far>10.0</far>     <!-- 10m maximum (distant) -->
+        </clip>
+
+        <!-- Lens distortion: barrel distortion (like wide-angle lens) -->
+        <distortion>
+          <k1>-0.25</k1>  <!-- Distortion coefficient -->
+        </distortion>
+      </camera>
+
+      <!-- Depth measurement noise: Gaussian -->
+      <noise>
+        <type>gaussian</type>
+        <mean>0</mean>
+        <stddev>0.007</stddev>  <!-- 0.7% depth noise (realistic) -->
+      </noise>
+    </sensor>
+
+  </link>
+
+  <!-- ========================================
+       GRIPPER: End-effector (Fixed to forearm)
+       For grasping objects in simulation
+       ======================================== -->
+  <link name="gripper">
+    <!-- Minimal mass (just the gripper plates) -->
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0"
+               iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+
+    <!-- Visual: two small red plates (gripper jaws) -->
+    <visual>
+      <geometry>
+        <box size="0.05 0.1 0.02"/>  <!-- 5cm wide, 10cm tall, 2cm deep -->
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 0.8"/>
+      </material>
+    </visual>
+
+    <!-- Collision: same box -->
+    <collision>
+      <geometry>
+        <box size="0.05 0.1 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ========================================
+       JOINT: Gripper (Fixed to forearm)
+       ======================================== -->
+  <joint name="gripper_joint" type="fixed">
+    <parent link="forearm"/>
+    <child link="gripper"/>
+
+    <!-- Position: at very tip of forearm -->
+    <origin xyz="0 0 0.4" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ========================================
+       SUMMARY: Robot Kinematics
+       ======================================== -->
+  <!--
+  Robot Structure:
+    base_link (ground, fixed)
+         |
+         | shoulder_joint (revolute, Z-axis)
+         |
+    upper_arm (0.5m cylinder)
+         |
+         | elbow_joint (revolute, Z-axis)
+         |
+    forearm (0.4m cylinder) + depth_camera at tip
+         |
+         | gripper_joint (fixed)
+         |
+    gripper (grasping plates)
+
+  Sensors:
+    - LiDAR: On base_link (360° obstacle detection)
+    - Depth Camera: On forearm tip (vision, RGB-D)
+    - IMU: On base_link (orientation, acceleration)
+
+  Range of Motion:
+    - Shoulder: 0 to 180° (fully rotatable)
+    - Elbow: 0 to 180° (fully rotatable)
+    - End-effector height: 0.075m (base) to ~0.975m (fully extended)
+  -->
+
+</robot>

@@ -17,7 +17,12 @@ module.exports = {
       type: 'category',
       label: 'Module 2: Digital Twin (Simulation)',
       items: [
-        'digital-twin/intro',
+        'digital-twin-sim/getting-started',
+        'digital-twin-sim/intro-digital-twin',
+        'digital-twin-sim/gazebo-fortress-setup',
+        'digital-twin-sim/simulating-sensors',
+        'digital-twin-sim/unity-visualization',
+        'digital-twin-sim/STUDENT-CHECKLIST',
       ],
       collapsed: false,
     },

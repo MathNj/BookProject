@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<!--
+  simple_world.sdf
+  ================
+  A basic Gazebo Fortress world for Module 2 Digital Twin learning
+
+  This world contains:
+  - Ground plane (physics-enabled)
+  - 2 obstacle boxes (table-like structures)
+  - Directional lighting (sun)
+  - Physics configuration for real-time simulation
+
+  Usage:
+    gazebo simple_world.sdf
+
+  Then in another terminal, spawn robot:
+    ros2 launch gazebo_ros spawn_model.launch.py model:=robot_sim.urdf
+
+  Performance:
+    - RTX 4070 Ti: 1000+ Hz (real-time)
+    - Modern CPU: ~50 Hz (acceptable but slow)
+-->
+
+<sdf version="1.9">
+  <world name="simple_world">
+
+    <!-- Physics engine configuration -->
+    <!-- ODE solver: standard choice for robotics -->
+    <!-- Real-time simulation: 1000 Hz (1 step every 1ms) -->
+    <physics default="0" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Gravity: 9.81 m/s^2 downward (negative Z direction) -->
+    <gravity>0 0 -9.81</gravity>
+
+    <!-- Ambient properties (affects lighting globally) -->
+    <ambient>0.4 0.4 0.4 1</ambient>
+
+    <!-- Sun: directional light simulating sunlight -->
+    <!-- Direction: from upper-right to lower-left -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 -0.5 -1</direction>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.8 0.8 0.8 1</specular>
+    </light>
+
+    <!-- Ground plane: infinite flat surface -->
+    <!-- Static: true means it doesn't move (fixed) -->
+    <!-- Visual: gray appearance -->
+    <!-- Collision: enabled for physics interactions -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 1: Table-like box -->
+    <!-- Position: 1 meter forward (Y), 0.4 meters high (Z) -->
+    <!-- Size: 1 meter wide (X), 1 meter deep (Y), 0.8 meter tall (Z) -->
+    <!-- Static: true means robot can't push it -->
+    <model name="obstacle_1">
+      <pose>1 0 0.4 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <!-- Collision shape: exactly matching visual -->
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>1 1 0.8</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <!-- Visual appearance: brown/tan color -->
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>1 1 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.3 0.1 1</ambient>
+            <diffuse>0.7 0.5 0.2 1</diffuse>
+            <specular>0.3 0.3 0.3 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 2: Second table-like box -->
+    <!-- Position: 1 meter backward (negative Y) -->
+    <!-- Otherwise identical to obstacle_1 -->
+    <model name="obstacle_2">
+      <pose>1 -2 0.4 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>1 1 0.8</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.5</mu>
+                <mu2>0.5</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>1 1 0.8</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.3 0.1 1</ambient>
+            <diffuse>0.7 0.5 0.2 1</diffuse>
+            <specular>0.3 0.3 0.3 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
+
+<!--
+  MODIFICATION EXERCISES
+  ======================
+
+  Exercise 1: Change obstacle size
+  --------------------------------
+  Goal: Make obstacles taller and narrower
+  Steps:
+    1. Change <size>1 1 0.8</size> to <size>0.5 0.5 2</size>
+    2. Save file
+    3. Relaunch: gazebo simple_world.sdf
+    4. Observe: Taller, narrower obstacles
+
+  Exercise 2: Add a third obstacle
+  --------------------------------
+  Goal: Create another obstacle at a different location
+  Steps:
+    1. Copy the entire <model name="obstacle_2"> block
+    2. Paste before </world>
+    3. Change name to obstacle_3
+    4. Change pose to different position, e.g.:
+       <pose>0 2 0.4 0 0 0</pose>
+    5. Relaunch and verify new obstacle appears
+
+  Exercise 3: Change friction
+  ---------------------------
+  Goal: Make ground slippery
+  Steps:
+    1. In obstacle_1, find <mu>0.5</mu>
+    2. Change to <mu>0.1</mu> (icy/slippery)
+    3. Relaunch world
+    4. Spawn robot and observe: slides more easily
+    5. Try <mu>1.0</mu> (sticky)
+
+  Exercise 4: Change physics speed
+  ---------------------------------
+  Goal: Make simulation faster (less accurate)
+  Steps:
+    1. Find <max_step_size>0.001</max_step_size>
+    2. Change to <max_step_size>0.01</max_step_size> (10x larger steps)
+    3. Change <real_time_update_rate>1000</real_time_update_rate> to 100
+    4. Relaunch: simulation will run faster but less accurately
+-->

@@ -1,0 +1,322 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Grid1
+        - /TF1
+      Splitter Ratio: 0.5
+    Tree Height: 557
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: world
+      Value: true
+
+    # ========================================
+    # Robot Model Display (URDF visualization)
+    # ========================================
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Margin: 0.01
+      Description File: "file:///path/to/robot_sim.urdf"
+      Description Source: File
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        upper_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        forearm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gripper:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+
+    # ========================================
+    # LiDAR Display (PointCloud2)
+    # ========================================
+    - Class: rviz_default_plugins/PointCloud2
+      Color: 200; 100; 100
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LiDAR
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05
+      Style: Spheres
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot/lidar/scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+
+    # ========================================
+    # Depth Camera RGB Display
+    # ========================================
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Camera RGB
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot/depth_camera/image_raw
+      Unreliable: false
+      Value: true
+
+    # ========================================
+    # Depth Camera Depth Map Display
+    # ========================================
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Camera Depth
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot/depth_camera/depth/image_raw
+      Unreliable: false
+      Value: true
+
+    # ========================================
+    # IMU Display
+    # ========================================
+    - Class: rviz_default_plugins/Imu
+      Acceleration Color: 255; 0; 0
+      Acceleration Vector Alpha: 0.5
+      Acceleration Vector Scale: 1
+      Enabled: true
+      Fixed Frame: world
+      Gyro Color: 0; 255; 0
+      Gyro Vector Alpha: 0.5
+      Gyro Vector Scale: 1
+      Name: IMU
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /robot/imu/data
+      Unreliable: false
+      Value: true
+
+    # ========================================
+    # Coordinate Frames (TF)
+    # ========================================
+    - Class: rviz_default_plugins/TF
+      All Enabled: false
+      Enabled: true
+      Frame Rate: 10
+      Frames:
+        All Enabled: true
+        base_link:
+          Value: true
+        odom:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 0.5
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          odom:
+            base_link:
+              upper_arm:
+                forearm:
+                  gripper:
+      Update Interval: 0
+      Value: true
+
+Camera:
+  controlled_view_tool:
+    Class: rviz_common/View
+    Name: Orbit
+    Target Frame: world
+    Value: Orbit (rviz)
+  orthogonal_view_tool:
+    Class: rviz_common/View
+    Name: Orthogonal
+    Target Frame: world
+    Value: Orthogonal (rviz)
+Default Tool: 2D Goal Pose
+Display Groups:
+  Sensors:
+    - Camera RGB
+    - Camera Depth
+    - LiDAR
+    - IMU
+Global Options:
+  Background Color: 48; 48; 48
+  Fixed Frame: world
+  Frame Rate: 30
+Interaction:
+  Hide Inactive Objects: true
+  Tool Feedback:
+    - Class: ""
+    Tool Offset:
+      X: 0
+      Y: 0
+      Z: 0
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Grid1
+        - /LiDAR1
+        - /Camera RGB1
+        - /Camera Depth1
+        - /IMU1
+        - /TF1
+      Splitter Ratio: 0.5
+    Tree Height: 557
+Tool Properties:
+  - Class: rviz_common/MoveCamera
+    Name: Interact
+    Panel Dock Location: XLeftDockWidgetArea
+    Property Tree Widget:
+      Expanded: []
+      Splitter Ratio: 0.5
+    Value: false
+  - Class: rviz_common/Select
+    Name: Select
+    Panel Dock Location: XLeftDockWidgetArea
+    Property Tree Widget:
+      Expanded: []
+      Splitter Ratio: 0.5
+    Value: false
+Transformation:
+  Current:
+    Class: rviz_default_plugins/TF
+    Enable: true
+Value: true
+Views:
+  Current:
+    Class: rviz_common/Orbit
+    Distance: 3
+    Enable Stereo Rendering:
+      Stereo Eye Separation: 0.06
+      Stereo Focal Distance: 1
+      Swap Stereo Eyes: false
+      Value: false
+    Focal Point:
+      X: 0.5
+      Y: 0
+      Z: 1
+    Focal Shape Fixed Size: true
+    Focal Shape Size: 0.05
+    Invert Z Axis: false
+    Name: Current View
+    Near Clip Distance: 0.01
+    Pitch: 0.785
+    Target Frame: world
+    Value: Orbit (rviz)
+    Yaw: 0.785
+Window Geometry:
+  Camera Depth:
+    collapsed: false
+  Camera RGB:
+    collapsed: false
+  Displays:
+    collapsed: false
+    height: 1378
+    width: 1920
+  Height: 1428
+  Hide Left Dock: false
+  Hide Right Dock: false
+  IMU:
+    collapsed: false
+  QMainWindow geometry: 1920x1428+0+0
+  RobotModel:
+    collapsed: true
+  Selection:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1920
