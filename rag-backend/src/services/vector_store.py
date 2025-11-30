@@ -3,14 +3,14 @@ Vector Store Service using Qdrant Cloud.
 
 Handles:
 - Connection to Qdrant vector database
-- Embedding generation using OpenAI
+- Embedding generation using Google Generative AI (Gemini)
 - Text search with semantic similarity
 - Collection management
 """
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
-from openai import OpenAI
+import google.generativeai as genai
 import logging
 from typing import List, Dict, Any, Optional
 from src.config import settings
@@ -22,15 +22,15 @@ class VectorStoreService:
     """Service for managing embeddings and vector search in Qdrant."""
 
     def __init__(self):
-        """Initialize Qdrant and OpenAI clients."""
+        """Initialize Qdrant and Gemini clients."""
         # Defer Qdrant connection until first use (lazy initialization)
         self._qdrant_client = None
         self._qdrant_initialized = False
-        # Use api_key if openai_api_key is empty (for Gemini key usage)
+        # Configure Gemini API
         api_key = settings.openai_api_key or settings.api_key
-        self.openai_client = OpenAI(api_key=api_key)
+        genai.configure(api_key=api_key)
         self.collection_name = settings.qdrant_collection_name
-        logger.info("✓ VectorStoreService initialized (Qdrant connection deferred)")
+        logger.info("✓ VectorStoreService initialized with Gemini embeddings (Qdrant connection deferred)")
 
     @property
     def qdrant_client(self) -> QdrantClient:
@@ -93,31 +93,31 @@ class VectorStoreService:
 
     def embed_text(self, text: str) -> List[float]:
         """
-        Generate embedding for text using OpenAI.
+        Generate embedding for text using Google Generative AI (Gemini).
 
         Args:
             text: Text to embed
 
         Returns:
-            List[float]: Embedding vector (1536 dimensions)
+            List[float]: Embedding vector
 
         Raises:
             ValueError: If text is empty
-            Exception: If OpenAI API call fails
+            Exception: If Gemini API call fails
         """
         if not text or not text.strip():
             raise ValueError("Text cannot be empty for embedding")
 
         try:
-            response = self.openai_client.embeddings.create(
-                input=text.strip(),
-                model=settings.openai_model,
+            response = genai.embed_content(
+                model="models/embedding-001",
+                content=text.strip(),
             )
-            embedding = response.data[0].embedding
-            logger.debug(f"✓ Generated embedding for {len(text)} chars")
+            embedding = response['embedding']
+            logger.debug(f"✓ Generated Gemini embedding for {len(text)} chars")
             return embedding
         except Exception as e:
-            logger.error(f"✗ Embedding generation failed: {e}")
+            logger.error(f"✗ Gemini embedding generation failed: {e}")
             raise
 
     def upsert_document(

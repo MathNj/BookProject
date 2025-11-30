@@ -28,9 +28,12 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Module 3: Robot Brain (Isaac Sim & VLA)',
+      label: 'Module 3: The AI-Robot Brain (NVIDIA Isaac)',
       items: [
-        'robot-brain/intro',
+        'robot-brain/isaac-sim-bridge',
+        'robot-brain/synthetic-data-generation',
+        'robot-brain/visual-slam',
+        'robot-brain/nav2-integration',
       ],
       collapsed: false,
     },
