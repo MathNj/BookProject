@@ -4,7 +4,12 @@ module.exports = {
       type: 'category',
       label: 'Module 1: The Nervous System (ROS 2)',
       items: [
-        'nervous-system/intro',
+        'nervous-system/getting-started',
+        'nervous-system/intro-to-ros2',
+        'nervous-system/installation',
+        'nervous-system/nodes-and-topics',
+        'nervous-system/urdf-modeling',
+        'nervous-system/STUDENT-CHECKLIST',
       ],
       collapsed: false,
     },
