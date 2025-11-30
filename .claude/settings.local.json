@@ -24,7 +24,19 @@
       "Bash(do curl -s -o /dev/null -w \"  - $module: %{http_code}\\n\" http://localhost:3000/BookProject/$module/intro/)",
       "Bash(done)",
       "Bash(npm run write-translations:*)",
-      "Bash(do)"
+      "Bash(do)",
+      "Bash(npm run swizzle:*)",
+      "Bash(tree:*)",
+      "Bash(poetry install:*)",
+      "Bash(pip --version:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(npm run start:*)",
+      "Bash(pkill:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm start)",
+      "Bash(findstr:*)",
+      "Bash(ls -lah \"C:\\Users\\Najma-LP\\Desktop\\BookProject\\docs-website\\docs\\01-nervous-system\"\" && echo \"---\" && ls -lah \"C:UsersNajma-LPDesktopBookProjectdocs-websitedocs01-nervous-systemcode-examples\"\")"
     ],
     "deny": [],
     "ask": []

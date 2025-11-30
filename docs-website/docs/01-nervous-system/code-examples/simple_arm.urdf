@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<!--
+  Simple 2-Joint Robot Arm URDF (Unified Robot Description Format)
+
+  This URDF describes a simple robot arm with:
+  - 1 fixed base link (the ground connection)
+  - 2 movable links (upper arm and forearm)
+  - 2 revolute joints (connecting the links)
+
+  A revolute joint allows rotation around a single axis (like an elbow or shoulder).
+
+  Visual Structure:
+
+    Joint 2 (elbow)
+         |
+    [Link 2] (forearm)
+    |    |
+    |    +-- End Effector
+    |
+   [Link 1] (upper arm)
+    |
+   Joint 1 (shoulder)
+    |
+  [Base]
+
+  To visualize this URDF:
+  1. Save as simple_arm.urdf
+  2. Use RViz (ROS Visualization tool) in ROS 2 Humble
+  3. Set fixed_frame to "base_link"
+  4. Add RobotModel display to visualize the structure
+-->
+
+<robot name="simple_arm">
+  <!--
+    === LINKS DEFINITION ===
+
+    A "link" represents a rigid body part of the robot.
+    Each link has:
+    - name: unique identifier
+    - inertial: mass and how mass is distributed (for physics simulation)
+    - visual: how it looks (for visualization)
+    - collision: physical boundaries (for collision detection)
+  -->
+
+  <!-- BASE LINK: The fixed foundation of the robot -->
+  <link name="base_link">
+    <!--
+      Inertia defines the mass properties of the link.
+      For the base (fixed), we use minimal values since it doesn't move.
+    -->
+    <inertial>
+      <!-- Mass in kilograms -->
+      <mass value="1.0"/>
+      <!--
+        Inertia matrix - describes how mass is distributed around the center.
+        For a simple box, we use approximate values.
+        Format: ixx (rotation around X), iyy (around Y), izz (around Z)
+        ixy, ixz, iyz are cross-products (usually 0 for simple shapes).
+      -->
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+
+    <!-- Visual representation: what the robot looks like -->
+    <visual>
+      <!-- Offset from the link's reference frame -->
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <!-- Geometry: a simple box representing the base -->
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+      <!-- Material/color: gray -->
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision geometry: for collision detection (same as visual in this simple example) -->
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- LINK 1: Upper Arm (shoulder to elbow) -->
+  <link name="link_1">
+    <inertial>
+      <!-- Upper arm is heavier than the base -->
+      <mass value="0.5"/>
+      <!--
+        For a cylinder (like an arm), inertia is different.
+        We use approximate values for a cylinder oriented along Z.
+      -->
+      <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.001"/>
+    </inertial>
+
+    <!-- Visual: a cylinder representing the upper arm -->
+    <visual>
+      <!--
+        Origin: positioned at the base of the link.
+        The link extends in the +Z direction.
+      -->
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <!-- A cylinder: radius 0.05m, height 0.3m -->
+      <geometry>
+        <cylinder radius="0.05" length="0.3"/>
+      </geometry>
+      <!-- Material: red for upper arm -->
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision: same cylinder -->
+    <collision>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.3"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- LINK 2: Forearm (elbow to wrist) -->
+  <link name="link_2">
+    <inertial>
+      <!-- Forearm is lighter than upper arm -->
+      <mass value="0.3"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.0005"/>
+    </inertial>
+
+    <!-- Visual: another cylinder for the forearm -->
+    <visual>
+      <!--
+        Positioned at the base of the link.
+        The forearm also extends in the +Z direction.
+      -->
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <!-- Forearm is shorter and thinner than upper arm -->
+      <geometry>
+        <cylinder radius="0.03" length="0.2"/>
+      </geometry>
+      <!-- Material: blue for forearm -->
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1.0"/>
+      </material>
+    </visual>
+
+    <!-- Collision: same cylinder -->
+    <collision>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!--
+    === JOINTS DEFINITION ===
+
+    A "joint" connects two links and defines how they can move relative to each other.
+
+    Types of joints:
+    - revolute: rotates around an axis (like an elbow)
+    - fixed: doesn't move (like welded parts)
+    - prismatic: slides along an axis (like a piston)
+    - continuous: rotates without limits
+
+    Each joint has:
+    - parent: the link it attaches to (the "before" link)
+    - child: the link it connects to (the "after" link)
+    - origin: the position and orientation of the joint
+    - axis: which direction it rotates/moves
+    - limits: min/max angles (for revolute) or distances (for prismatic)
+  -->
+
+  <!-- JOINT 1: Shoulder (connects base to upper arm) -->
+  <joint name="joint_1" type="revolute">
+    <!--
+      Parent: base_link (the foundation)
+      Child: link_1 (the upper arm)
+
+      This is a chain: base_link <--joint_1--> link_1
+    -->
+    <parent link="base_link"/>
+    <child link="link_1"/>
+
+    <!--
+      Origin: where the joint is located relative to the parent link.
+      xyz="0 0 0.05" means: centered horizontally, 5cm above the base.
+      rpy="0 0 0" means: no rotation offset.
+    -->
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+
+    <!--
+      Axis: which direction the joint rotates.
+      xyz="0 0 1" means: rotation around the Z axis (up/down).
+      This is like a shoulder ball joint rotating in the horizontal plane.
+    -->
+    <axis xyz="0 0 1"/>
+
+    <!--
+      Limits: min/max angles in radians.
+      -π/2 to +π/2 radians = -90° to +90°
+      effort: max force/torque the actuator can apply
+      velocity: max speed of rotation
+    -->
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="1.0"/>
+
+    <!--
+      Dynamics: friction and damping properties.
+      damping: energy loss due to friction (higher = more friction)
+      friction: static friction
+    -->
+    <dynamics damping="0.1" friction="0.1"/>
+  </joint>
+
+  <!-- JOINT 2: Elbow (connects upper arm to forearm) -->
+  <joint name="joint_2" type="revolute">
+    <!--
+      Parent: link_1 (the upper arm)
+      Child: link_2 (the forearm)
+
+      Chain continues: base_link <--joint_1--> link_1 <--joint_2--> link_2
+    -->
+    <parent link="link_1"/>
+    <child link="link_2"/>
+
+    <!--
+      Origin: where the elbow joint is located.
+      xyz="0 0 0.3" means: 30cm above the shoulder (at the end of the upper arm).
+    -->
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+
+    <!--
+      Axis: also rotates around Z.
+      Both shoulders and elbows rotate in the same plane in this simple arm.
+    -->
+    <axis xyz="0 0 1"/>
+
+    <!-- Limits: same as shoulder, -90° to +90° -->
+    <limit lower="-1.57" upper="1.57" effort="5.0" velocity="1.0"/>
+
+    <!-- Elbow is less powerful than shoulder -->
+    <dynamics damping="0.05" friction="0.05"/>
+  </joint>
+
+  <!--
+    OPTIONAL: End Effector Link
+
+    In a real robot, the forearm would have a tool or gripper at the end.
+    We could add a third link here, but for simplicity, we stop at link_2.
+
+    To add an end effector:
+    1. Create a new <link name="end_effector">
+    2. Create a <joint> connecting link_2 to end_effector
+    3. Make the joint "fixed" (type="fixed") since the end effector doesn't move relative to the forearm
+  -->
+
+</robot>

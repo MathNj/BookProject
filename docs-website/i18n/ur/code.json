@@ -1,4 +1,124 @@
 {
+  "homepage.title": {
+    "message": "فزیکل AI اور ہیومانوئڈ روبوٹکس",
+    "description": "Landing page hero title"
+  },
+  "homepage.subtitle": {
+    "message": "کوڈ سے کارپس تک: مجسم ذہانت کی رہنما کتاب",
+    "description": "Landing page hero subtitle"
+  },
+  "homepage.cta": {
+    "message": "Module 1 شروع کریں: نرووس سسٹم →",
+    "description": "Landing page CTA button"
+  },
+  "homepage.module1.title": {
+    "message": "ماڈیول 1: نرووس سسٹم",
+    "description": "Module 1 card title"
+  },
+  "homepage.module1.description": {
+    "message": "ROS 2 کے ساتھ روبوٹ کمیونیکیشن اور کنٹرول کی بنیاد",
+    "description": "Module 1 card description"
+  },
+  "homepage.module2.title": {
+    "message": "ماڈیول 2: ڈیجیٹل ٹوئن",
+    "description": "Module 2 card title"
+  },
+  "homepage.module2.description": {
+    "message": "Isaac Sim کے ساتھ ورچوئل ڈیجیٹل ٹوئن بنائیں",
+    "description": "Module 2 card description"
+  },
+  "homepage.module3.title": {
+    "message": "ماڈیول 3: روبوٹ کا دماغ",
+    "description": "Module 3 card title"
+  },
+  "homepage.module3.description": {
+    "message": "VLMs کے ساتھ ادراک اور منصوبہ بندی",
+    "description": "Module 3 card description"
+  },
+  "homepage.module4.title": {
+    "message": "ماڈیول 4: ذہن",
+    "description": "Module 4 card title"
+  },
+  "homepage.module4.description": {
+    "message": "وژن لینگویج ماڈلز اور جدید استدلال",
+    "description": "Module 4 card description"
+  },
+  "homepage.module5.title": {
+    "message": "ماڈیول 5: اختتامی منصوبہ",
+    "description": "Module 5 card title"
+  },
+  "homepage.module5.description": {
+    "message": "حقیقی ہارڈویئر پر مکمل خود مختار نظام",
+    "description": "Module 5 card description"
+  },
+  "homepage.keyFeatures.title": {
+    "message": "اہم خصوصیات",
+    "description": "Key Features section title"
+  },
+  "homepage.feature1.title": {
+    "message": "5 نصاب ماڈیولز",
+    "description": "Feature 1 title"
+  },
+  "homepage.feature1.description": {
+    "message": "ROS 2 → ڈیجیٹل ٹوئن → Isaac Sim → VLA → اختتامی منصوبہ",
+    "description": "Feature 1 description"
+  },
+  "homepage.feature2.title": {
+    "message": "RAG چیٹ بوٹ",
+    "description": "Feature 2 title"
+  },
+  "homepage.feature2.description": {
+    "message": "کسی بھی سوال کے جوابات کے لیے 'کتاب سے پوچھیں' ودجیٹ",
+    "description": "Feature 2 description"
+  },
+  "homepage.feature3.title": {
+    "message": "تصدیق",
+    "description": "Feature 3 title"
+  },
+  "homepage.feature3.description": {
+    "message": "ہارڈویئر اور سافٹویئر پروفائل کے ساتھ صارف کی رجسٹریشن",
+    "description": "Feature 3 description"
+  },
+  "homepage.feature4.title": {
+    "message": "ذاتی سازی",
+    "description": "Feature 4 title"
+  },
+  "homepage.feature4.description": {
+    "message": "آپ کی پس منظر کے مطابق مختلف مواد",
+    "description": "Feature 4 description"
+  },
+  "homepage.feature5.title": {
+    "message": "مختلف زبانیں",
+    "description": "Feature 5 title"
+  },
+  "homepage.feature5.description": {
+    "message": "انگریزی + اردو RTL سپورٹ کے ساتھ",
+    "description": "Feature 5 description"
+  },
+  "homepage.feature6.title": {
+    "message": "CI/CD پائپ لائن",
+    "description": "Feature 6 title"
+  },
+  "homepage.feature6.description": {
+    "message": "GitHub Pages پر خودکار تعینات",
+    "description": "Feature 6 description"
+  },
+  "homepage.hardware.title": {
+    "message": "ہارڈویئر کی ضروریات",
+    "description": "Hardware Requirements section title"
+  },
+  "homepage.hardware.primary": {
+    "message": "بنیادی ورک سٹیشن",
+    "description": "Primary Workstation heading"
+  },
+  "homepage.hardware.edge": {
+    "message": "کنارے کا ڈیوائس",
+    "description": "Edge Device heading"
+  },
+  "homepage.hardware.robot": {
+    "message": "ہدف روبوٹ",
+    "description": "Target Robot heading"
+  },
   "theme.ErrorPageContent.title": {
     "message": "یہ صفحہ کریش ہو گیا۔",
     "description": "جب صفحہ کریش ہو تو fallback صفحہ کا عنوان"
