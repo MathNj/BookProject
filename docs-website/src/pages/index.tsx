@@ -15,27 +15,27 @@ const translations = {
       {
         title: 'Module 1: The Nervous System',
         description: 'Foundation of Robot Communication & Control with ROS 2',
-        link: '/01-nervous-system',
+        link: '/nervous-system/nervous-system-overview',
       },
       {
         title: 'Module 2: Digital Twin',
         description: 'Building Virtual Replicas with Isaac Sim',
-        link: '/02-digital-twin',
+        link: '/digital-twin/digital-twin-overview',
       },
       {
         title: 'Module 3: Robot Brain',
         description: 'Perception & Planning with VLMs',
-        link: '/03-robot-brain',
+        link: '/robot-brain/robot-brain-overview',
       },
       {
         title: 'Module 4: The Mind',
         description: 'Vision Language Models & Advanced Reasoning',
-        link: '/04-the-mind',
+        link: '/the-mind/the-mind-overview',
       },
       {
         title: 'Module 5: Capstone Project',
         description: 'End-to-End Autonomous System on Real Hardware',
-        link: '/05-capstone',
+        link: '/capstone/capstone-overview',
       },
     ],
     features: [
@@ -61,8 +61,8 @@ const translations = {
       },
       {
         icon: '🌍',
-        title: 'Localization',
-        description: 'English + Urdu with RTL support',
+        title: 'Global Access',
+        description: 'English with international support',
       },
       {
         icon: '⚡',
@@ -71,81 +71,12 @@ const translations = {
       },
     ],
   },
-  ur: {
-    title: 'فزیکل AI اور ہیومانوئڈ روبوٹکس',
-    subtitle: 'کوڈ سے کارپس تک: مجسم ذہانت کی رہنما کتاب',
-    cta: 'Module 1 شروع کریں: نرووس سسٹم →',
-    keyFeatures: 'اہم خصوصیات',
-    hardwareRequirements: 'ہارڈویئر کی ضروریات',
-    modules: [
-      {
-        title: 'ماڈیول 1: نرووس سسٹم',
-        description: 'ROS 2 کے ساتھ روبوٹ کمیونیکیشن اور کنٹرول کی بنیاد',
-        link: '/ur/01-nervous-system',
-      },
-      {
-        title: 'ماڈیول 2: ڈیجیٹل ٹوئن',
-        description: 'Isaac Sim کے ساتھ ورچوئل ڈیجیٹل ٹوئن بنائیں',
-        link: '/ur/02-digital-twin',
-      },
-      {
-        title: 'ماڈیول 3: روبوٹ کا دماغ',
-        description: 'VLMs کے ساتھ ادراک اور منصوبہ بندی',
-        link: '/ur/03-robot-brain',
-      },
-      {
-        title: 'ماڈیول 4: ذہن',
-        description: 'وژن لینگویج ماڈلز اور جدید استدلال',
-        link: '/ur/04-the-mind',
-      },
-      {
-        title: 'ماڈیول 5: اختتامی منصوبہ',
-        description: 'حقیقی ہارڈویئر پر مکمل خود مختار نظام',
-        link: '/ur/05-capstone',
-      },
-    ],
-    features: [
-      {
-        icon: '📚',
-        title: '5 نصاب ماڈیولز',
-        description: 'ROS 2 → ڈیجیٹل ٹوئن → Isaac Sim → VLA → اختتامی منصوبہ',
-      },
-      {
-        icon: '🤖',
-        title: 'RAG چیٹ بوٹ',
-        description: 'کسی بھی سوال کے جوابات کے لیے \'کتاب سے پوچھیں\' ودجیٹ',
-      },
-      {
-        icon: '🔐',
-        title: 'تصدیق',
-        description: 'ہارڈویئر اور سافٹویئر پروفائل کے ساتھ صارف کی رجسٹریشن',
-      },
-      {
-        icon: '🎯',
-        title: 'ذاتی سازی',
-        description: 'آپ کی پس منظر کے مطابق مختلف مواد',
-      },
-      {
-        icon: '🌍',
-        title: 'مختلف زبانیں',
-        description: 'انگریزی + اردو RTL سپورٹ کے ساتھ',
-      },
-      {
-        icon: '⚡',
-        title: 'CI/CD پائپ لائن',
-        description: 'GitHub Pages پر خودکار تعینات',
-      },
-    ],
-  },
 };
 
 export default function Home() {
   const { withBaseUrl } = useBaseUrlUtils();
-  const location = useLocation();
 
-  const isUrdu = useMemo(() => location.pathname.startsWith('/ur/'), [location.pathname]);
-  const lang = isUrdu ? 'ur' : 'en';
-  const t = translations[lang];
+  const t = translations.en;
 
   return (
     <Layout
@@ -221,7 +152,7 @@ export default function Home() {
             <div style={{ textAlign: 'center' }}>
               <Link
                 className="button button--primary button--lg"
-                to={isUrdu ? '/ur/01-nervous-system' : '/01-nervous-system'}
+                to="/nervous-system/nervous-system-overview"
               >
                 {t.cta}
               </Link>

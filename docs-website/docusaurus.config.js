@@ -62,11 +62,11 @@ const config = {
         {
           title: 'Curriculum',
           items: [
-            { label: 'Module 1: The Nervous System', to: '/nervous-system/getting-started' },
+            { label: 'Module 1: The Nervous System', to: '/nervous-system/nervous-system-overview' },
             { label: 'Module 2: Digital Twin', to: '/digital-twin-sim/getting-started' },
             { label: 'Module 3: Robot Brain', to: '/robot-brain/isaac-sim-bridge' },
-            { label: 'Module 4: The Mind', to: '/the-mind/the-mind-intro' },
-            { label: 'Module 5: Capstone', to: '/capstone/capstone-intro' },
+            { label: 'Module 4: The Mind', to: '/the-mind/the-mind-overview' },
+            { label: 'Module 5: Capstone', to: '/capstone/capstone-overview' },
           ],
         },
         {
