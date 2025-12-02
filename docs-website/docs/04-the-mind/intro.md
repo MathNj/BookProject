@@ -1,4 +1,5 @@
 ---
+id: the-mind-overview
 sidebar_position: 4
 ---
 
