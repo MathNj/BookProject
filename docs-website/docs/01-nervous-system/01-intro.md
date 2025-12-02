@@ -1,3 +1,8 @@
+---
+id: intro-to-ros-2
+sidebar_position: 1
+---
+
 # The Nervous System (ROS 2)
 
 ## Overview

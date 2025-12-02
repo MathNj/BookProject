@@ -4,8 +4,8 @@ module.exports = {
       type: 'category',
       label: 'Module 1: The Nervous System (ROS 2)',
       items: [
-        'nervous-system/getting-started',
-        'nervous-system/intro-to-ros2',
+        'nervous-system/nervous-system-overview',
+        'nervous-system/intro-to-ros-2',
         'nervous-system/installation',
         'nervous-system/nodes-and-topics',
         'nervous-system/urdf-modeling',
@@ -28,9 +28,12 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'Module 3: Robot Brain (Isaac Sim & VLA)',
+      label: 'Module 3: The AI-Robot Brain (NVIDIA Isaac)',
       items: [
-        'robot-brain/intro',
+        'robot-brain/isaac-sim-bridge',
+        'robot-brain/synthetic-data-generation',
+        'robot-brain/visual-slam',
+        'robot-brain/nav2-integration',
       ],
       collapsed: false,
     },
@@ -38,7 +41,7 @@ module.exports = {
       type: 'category',
       label: 'Module 4: The Mind (Vision Language Models)',
       items: [
-        'the-mind/intro',
+        'the-mind/the-mind-overview',
       ],
       collapsed: false,
     },
@@ -46,7 +49,7 @@ module.exports = {
       type: 'category',
       label: 'Module 5: Capstone Project',
       items: [
-        'capstone/intro',
+        'capstone/capstone-overview',
       ],
       collapsed: false,
     },

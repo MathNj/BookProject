@@ -16,15 +16,11 @@ const config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'ur'],
+    locales: ['en'],
     localeConfigs: {
       en: {
         label: 'English',
         direction: 'ltr',
-      },
-      ur: {
-        label: 'اردو',
-        direction: 'rtl',
       },
     },
   },
@@ -46,6 +42,10 @@ const config = {
     ],
   ],
 
+  plugins: [],
+
+  themes: [],
+
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
@@ -54,12 +54,7 @@ const config = {
         alt: 'Site Logo',
         src: 'img/logo.svg',
       },
-      items: [
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
-      ],
+      items: [],
     },
     footer: {
       style: 'dark',
@@ -67,11 +62,11 @@ const config = {
         {
           title: 'Curriculum',
           items: [
-            { label: 'Module 1: The Nervous System', to: '/nervous-system/getting-started' },
+            { label: 'Module 1: The Nervous System', to: '/nervous-system/nervous-system-overview' },
             { label: 'Module 2: Digital Twin', to: '/digital-twin-sim/getting-started' },
-            { label: 'Module 3: Robot Brain', to: '/robot-brain/intro' },
-            { label: 'Module 4: The Mind', to: '/the-mind/intro' },
-            { label: 'Module 5: Capstone', to: '/capstone/intro' },
+            { label: 'Module 3: Robot Brain', to: '/robot-brain/isaac-sim-bridge' },
+            { label: 'Module 4: The Mind', to: '/the-mind/the-mind-overview' },
+            { label: 'Module 5: Capstone', to: '/capstone/capstone-overview' },
           ],
         },
         {
@@ -84,7 +79,7 @@ const config = {
           ],
         },
       ],
-      copyright: `© 2024 Physical AI Initiative. Built with Spec-Kit Plus.`,
+      copyright: `© 2025 Physical AI Initiative. Built with Spec-Kit Plus.`,
     },
   },
 };

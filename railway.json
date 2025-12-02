@@ -1,0 +1,57 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "dockerfile"
+  },
+  "deploy": {
+    "startCommand": "npm run start:with-auth",
+    "restartPolicyType": "on_failure",
+    "restartPolicyMaxRetries": 5
+  },
+  "variables": {
+    "NODE_ENV": "production",
+    "API_PORT": "5000",
+    "DOCUSAURUS_PORT": "3000",
+    "BETTER_AUTH_SECRET": {
+      "description": "Secret key for better-auth",
+      "type": "secret"
+    },
+    "BETTER_AUTH_URL": {
+      "description": "URL of the deployed app",
+      "default": "${{RAILWAY_PUBLIC_DOMAIN}}"
+    }
+  },
+  "services": {
+    "frontend": {
+      "builder": "dockerfile",
+      "buildCommand": "npm install && npm run build",
+      "startCommand": "npm start",
+      "environments": {
+        "production": {
+          "DOCUSAURUS_PORT": "3000"
+        }
+      }
+    },
+    "auth-api": {
+      "builder": "dockerfile",
+      "buildCommand": "npm install",
+      "startCommand": "node api/server.js",
+      "environments": {
+        "production": {
+          "API_PORT": "5000"
+        }
+      }
+    },
+    "rag-api": {
+      "builder": "dockerfile",
+      "buildCommand": "pip install -r requirements.txt",
+      "startCommand": "python -m uvicorn src.main:app --host 0.0.0.0 --port 8000",
+      "environments": {
+        "production": {
+          "PYTHON_ENV": "production",
+          "API_PORT": "8000"
+        }
+      }
+    }
+  }
+}

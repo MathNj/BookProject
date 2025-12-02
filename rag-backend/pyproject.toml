@@ -26,6 +26,7 @@ python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 
 # RAG/Embeddings
 openai = "^1.3.9"  # For embeddings and text generation API
+google-generativeai = "^0.3.0"  # For Gemini embeddings
 qdrant-client = "^2.7.0"  # Qdrant vector database client
 
 # Configuration

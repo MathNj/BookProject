@@ -3,7 +3,7 @@ Vector Store Service using Qdrant Cloud.
 
 Handles:
 - Connection to Qdrant vector database
-- Embedding generation using OpenAI
+- Embedding generation using OpenAI text-embedding-3 models
 - Text search with semantic similarity
 - Collection management
 """
@@ -26,11 +26,11 @@ class VectorStoreService:
         # Defer Qdrant connection until first use (lazy initialization)
         self._qdrant_client = None
         self._qdrant_initialized = False
-        # Use api_key if openai_api_key is empty (for Gemini key usage)
-        api_key = settings.openai_api_key or settings.api_key
-        self.openai_client = OpenAI(api_key=api_key)
+        # Configure OpenAI client for embeddings
+        self.openai_client = OpenAI(api_key=settings.openai_api_key)
+        self.embedding_model = settings.embedding_model
         self.collection_name = settings.qdrant_collection_name
-        logger.info("✓ VectorStoreService initialized (Qdrant connection deferred)")
+        logger.info(f"✓ VectorStoreService initialized with OpenAI embeddings (model: {self.embedding_model}, Qdrant connection deferred)")
 
     @property
     def qdrant_client(self) -> QdrantClient:
@@ -93,13 +93,13 @@ class VectorStoreService:
 
     def embed_text(self, text: str) -> List[float]:
         """
-        Generate embedding for text using OpenAI.
+        Generate embedding for text using OpenAI text-embedding-3 models.
 
         Args:
             text: Text to embed
 
         Returns:
-            List[float]: Embedding vector (1536 dimensions)
+            List[float]: Embedding vector
 
         Raises:
             ValueError: If text is empty
@@ -110,14 +110,14 @@ class VectorStoreService:
 
         try:
             response = self.openai_client.embeddings.create(
+                model=self.embedding_model,
                 input=text.strip(),
-                model=settings.openai_model,
             )
             embedding = response.data[0].embedding
-            logger.debug(f"✓ Generated embedding for {len(text)} chars")
+            logger.debug(f"✓ Generated OpenAI embedding for {len(text)} chars using {self.embedding_model}")
             return embedding
         except Exception as e:
-            logger.error(f"✗ Embedding generation failed: {e}")
+            logger.error(f"✗ OpenAI embedding generation failed: {e}")
             raise
 
     def upsert_document(
